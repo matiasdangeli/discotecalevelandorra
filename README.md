@@ -158,14 +158,28 @@ Para forzar un idioma al probar: `?lang=ca`, `?lang=en`, `?lang=fr`.
 El workflow `.github/workflows/deploy.yml` publica en GitHub Pages con cada push
 a `main`.
 
-**Paso único e imprescindible:** entrar en
-[Settings → Pages](https://github.com/matiasdangeli/discotecalevelandorra/settings/pages)
-y poner **Source: GitHub Actions**. Sin esto el despliegue falla con
-`Resource not accessible by integration`: el token de Actions puede publicar en un
-sitio de Pages ya existente, pero no tiene permiso para crearlo la primera vez.
+La web está publicada en
+**https://matiasdangeli.github.io/discotecalevelandorra/**
 
-Hecho eso, cada push a `main` publica solo, y la web queda en
-`https://matiasdangeli.github.io/discotecalevelandorra/`.
+Dos cosas que hubo que resolver y conviene no olvidar:
+
+1. **Pages se activa a mano una vez**, en
+   [Settings → Pages](https://github.com/matiasdangeli/discotecalevelandorra/settings/pages)
+   → *Source: GitHub Actions*. El token de Actions puede publicar en un sitio de
+   Pages existente, pero no tiene permiso para crearlo la primera vez: falla con
+   `Resource not accessible by integration`. Ya está hecho.
+
+2. **Pages solo despliega desde la rama por defecto del repositorio.** Al activarlo,
+   GitHub crea el entorno `github-pages` restringido a esa rama, y cualquier
+   despliegue desde otra se rechaza antes de ejecutar ningún paso (el job falla en
+   segundos y sin registros, que despista bastante).
+
+   > **Pendiente:** la rama por defecto sigue siendo `claude/discoteca-level-website-714kk1`,
+   > porque fue la primera que se subió al repositorio vacío. Conviene cambiarla a
+   > `main` en [Settings → Branches](https://github.com/matiasdangeli/discotecalevelandorra/settings).
+   > Hasta entonces, cada push a `main` **no** publica solo: hay que lanzar el
+   > workflow a mano desde la rama por defecto (pestaña Actions → *Run workflow*).
+   > Con el cambio hecho, cada push a `main` publica automáticamente.
 
 Para servirlo en `discotecalevelandorra.com` hay que apuntar el DNS a GitHub Pages
 y añadir el dominio en Settings → Pages. El dominio está ahora en Hostinger con
