@@ -174,12 +174,13 @@ Dos cosas que hubo que resolver y conviene no olvidar:
    despliegue desde otra se rechaza antes de ejecutar ningún paso (el job falla en
    segundos y sin registros, que despista bastante).
 
-   > **Pendiente:** la rama por defecto sigue siendo `claude/discoteca-level-website-714kk1`,
-   > porque fue la primera que se subió al repositorio vacío. Conviene cambiarla a
-   > `main` en [Settings → Branches](https://github.com/matiasdangeli/discotecalevelandorra/settings).
-   > Hasta entonces, cada push a `main` **no** publica solo: hay que lanzar el
-   > workflow a mano desde la rama por defecto (pestaña Actions → *Run workflow*).
-   > Con el cambio hecho, cada push a `main` publica automáticamente.
+   > Ya resuelto: la rama por defecto es `main`, que es también la que dispara el
+   > workflow. Si algún día se cambia la rama por defecto, hay que cambiar también
+   > el `on: push: branches` de `deploy.yml`, o los despliegues volverán a
+   > rechazarse sin explicación.
+
+Con las dos cosas hechas, **cada push a `main` publica solo**. También puede
+lanzarse a mano desde la pestaña *Actions* → *Run workflow*.
 
 Para servirlo en `discotecalevelandorra.com` hay que apuntar el DNS a GitHub Pages
 y añadir el dominio en Settings → Pages. El dominio está ahora en Hostinger con
