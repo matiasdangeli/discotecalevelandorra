@@ -156,7 +156,16 @@ Para forzar un idioma al probar: `?lang=ca`, `?lang=en`, `?lang=fr`.
 ## Publicación
 
 El workflow `.github/workflows/deploy.yml` publica en GitHub Pages con cada push
-a `main`. Hay que activarlo una vez en **Settings → Pages → Source: GitHub Actions**.
+a `main`.
+
+**Paso único e imprescindible:** entrar en
+[Settings → Pages](https://github.com/matiasdangeli/discotecalevelandorra/settings/pages)
+y poner **Source: GitHub Actions**. Sin esto el despliegue falla con
+`Resource not accessible by integration`: el token de Actions puede publicar en un
+sitio de Pages ya existente, pero no tiene permiso para crearlo la primera vez.
+
+Hecho eso, cada push a `main` publica solo, y la web queda en
+`https://matiasdangeli.github.io/discotecalevelandorra/`.
 
 Para servirlo en `discotecalevelandorra.com` hay que apuntar el DNS a GitHub Pages
 y añadir el dominio en Settings → Pages. El dominio está ahora en Hostinger con
