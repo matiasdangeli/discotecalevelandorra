@@ -42,8 +42,10 @@ persona. Los textos están en `config.js` → `waMessages`.
   → claves `info.rules.*` y `faq.*`.
 - **Entradas.** Apunta a `site.fourvenues.com/es/level-andorra`. Si usáis otra
   plataforma, cambiar `ticketsUrl`.
-- **Datos legales.** `legal.html` tiene marcadores `[COMPLETAR]`: denominación
-  social, NRT, email y teléfono. Conviene que lo revise un asesor en Andorra.
+- **Datos legales.** `legal.html` ya lleva la titularidad (ByAxel Group), el
+  domicilio y el teléfono. Falta únicamente el **NRT**, que es obligatorio en el
+  aviso legal: está en la escritura de constitución o en cualquier factura de la
+  sociedad. Conviene además que un asesor en Andorra revise el texto completo.
 
 ---
 
