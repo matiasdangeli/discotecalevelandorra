@@ -30,6 +30,10 @@ jobs:
 
       - name: Configurar Pages
         uses: actions/configure-pages@v5
+        with:
+          # Activa Pages en el repositorio si aún no lo estaba, sin tener que
+          # tocar Settings a mano.
+          enablement: true
 
       - name: Empaquetar el sitio
         uses: actions/upload-pages-artifact@v3

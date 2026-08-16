@@ -33,9 +33,8 @@ persona. Los textos están en `config.js` → `waMessages`.
 - **Programación semanal.** Jueves «Cachengue» con 2x1 en copas sale de un flyer
   vuestro de marzo de 2026. Los textos de viernes, sábado y domingo son genéricos.
   → `assets/js/i18n.js`, claves `program.*` (en los 4 idiomas).
-- **Horarios.** Jue 00–04, Vie 00–05, Sáb 00–05, Dom 00–03, tomados de la web
-  anterior. Otras fuentes decían «viernes a domingo». → `config.js` → `hours`
-  y el JSON-LD de `index.html`.
+- ~~**Horarios.**~~ ✅ Confirmados: Jue 00–04, Vie 00–05, Sáb 00–05, Dom 00–03.
+  Si cambian, se editan en `config.js` → `hours` y en el JSON-LD de `index.html`.
 - **Dirección.** `Ctra. de l'Obac, 18 · Edifici Enland · AD500 Andorra la Vella`.
   Las coordenadas sí son las del pin real de Google Maps. Confirmar el número.
 - **Normas de acceso** (edad, código de vestimenta, guardarropa, pagos) y **FAQ**.
