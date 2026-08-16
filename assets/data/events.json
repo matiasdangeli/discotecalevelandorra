@@ -1,0 +1,14 @@
+[
+  {
+    "_comentario": "PLANTILLA — copia este bloque para cada fecha especial y borra este campo _comentario. Si el array queda vacío ([]), la web muestra automáticamente un aviso elegante con enlace a Instagram. Campos: date (AAAA-MM-DD, obligatorio) · name (obligatorio) · room · lineup (lista de nombres) · doors · ticketsUrl (si se omite, usa la URL general de config.js) · soldOut (true/false) · tags (lista corta)",
+    "date": "2026-12-31",
+    "name": "Nochevieja en Level",
+    "room": "Sala Honey",
+    "lineup": ["DJ invitado", "Residentes Level"],
+    "doors": "00:00",
+    "ticketsUrl": "",
+    "soldOut": false,
+    "tags": ["Especial", "Fin de año"],
+    "_activo": false
+  }
+]
