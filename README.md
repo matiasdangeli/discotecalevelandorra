@@ -179,23 +179,66 @@ Dos cosas que hubo que resolver y conviene no olvidar:
    sin ningún mensaje de error. Es un fallo muy difícil de diagnosticar, porque
    parece un problema del workflow y no lo es.
 
-   > **Pendiente:** el entorno sigue admitiendo solo
-   > `claude/discoteca-level-website-714kk1`, la rama que era principal cuando se
-   > activó Pages. Para que los push a `main` publiquen solos hay que actualizarlo
-   > en [Settings → Environments → github-pages](https://github.com/matiasdangeli/discotecalevelandorra/settings/environments),
-   > en *Deployment branches and tags*: añadir `main`, o poner *All branches*.
-   >
-   > Mientras tanto se publica lanzando el workflow a mano desde *Actions* →
-   > *Run workflow*, eligiendo la rama que sí está permitida.
+   > Ya resuelto: la lista se actualizó en
+   > [Settings → Environments → github-pages](https://github.com/matiasdangeli/discotecalevelandorra/settings/environments),
+   > apartado *Deployment branches and tags*, para admitir `main`. Si algún día
+   > vuelven a rechazarse despliegues sin explicación, ahí es donde hay que mirar.
+
+Con las tres cosas hechas —Pages activado, `main` como rama principal y el entorno
+admitiéndola— **cada push a `main` publica solo**. También puede lanzarse a mano
+desde la pestaña *Actions* → *Run workflow*.
 
 **Cómo comprobar cuál es el problema:** si un despliegue falla en segundos y sin
 registros, es la lista de ramas del entorno. Si falla dentro de un paso concreto y
 con registros, es el sitio o el workflow.
 
-Para servirlo en `discotecalevelandorra.com` hay que apuntar el DNS a GitHub Pages
-y añadir el dominio en Settings → Pages. El dominio está ahora en Hostinger con
-WordPress, así que ese cambio tumba la web anterior: conviene hacerlo cuando el
-contenido de arriba esté confirmado.
+## Pasar el sitio a discotecalevelandorra.com
+
+El dominio está hoy en Hostinger sirviendo un WordPress. Al apuntarlo a GitHub
+Pages, **esa web anterior deja de verse**: es un reemplazo, no conviven. Conviene
+hacerlo con el contenido ya confirmado y a una hora de poco tráfico, porque entre
+un sitio y otro hay un rato en que el dominio no resuelve.
+
+El orden importa. Si se configura el dominio en GitHub antes de tocar el DNS, el
+sitio deja de ser accesible también por la dirección de `github.io`, porque esta
+pasa a redirigir al dominio propio.
+
+**1. DNS en Hostinger.** En la zona DNS del dominio, borrar los registros `A` que
+apunten al hosting actual y crear estos cuatro, todos para el host `@`:
+
+```
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+```
+
+Y un registro `CNAME` para el host `www` apuntando a `matiasdangeli.github.io`.
+
+> Los registros `MX` no se tocan: si el dominio tiene correo, sigue funcionando.
+
+**2. Esperar a que propague.** Suele tardar entre unos minutos y un par de horas.
+Se comprueba con `dig discotecalevelandorra.com +short`, que tiene que devolver
+las cuatro direcciones de arriba.
+
+**3. Dominio en GitHub.** En
+[Settings → Pages](https://github.com/matiasdangeli/discotecalevelandorra/settings/pages),
+apartado *Custom domain*, escribir `discotecalevelandorra.com` y guardar. GitHub
+verifica el DNS y crea un archivo `CNAME` en el repositorio.
+
+> Si el archivo `CNAME` desaparece en algún despliegue, hay que añadirlo a mano
+> en la raíz del repositorio con el dominio dentro: se publica el repositorio
+> entero, así que basta con que el archivo exista.
+
+**4. HTTPS.** Cuando GitHub termine de emitir el certificado —puede tardar hasta
+una hora— marcar **Enforce HTTPS** en esa misma página.
+
+**5. Después.** El plan de hosting de Hostinger se puede dar de baja: GitHub Pages
+no cuesta nada. **El dominio hay que seguir renovándolo**, eso es aparte del
+hosting.
+
+Los metadatos del sitio (canonical, Open Graph, sitemap) ya apuntan a
+`discotecalevelandorra.com`, así que no hay que cambiar nada del código.
 
 ---
 
