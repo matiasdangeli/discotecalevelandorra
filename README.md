@@ -169,18 +169,28 @@ Dos cosas que hubo que resolver y conviene no olvidar:
    Pages existente, pero no tiene permiso para crearlo la primera vez: falla con
    `Resource not accessible by integration`. Ya está hecho.
 
-2. **Pages solo despliega desde la rama por defecto del repositorio.** Al activarlo,
-   GitHub crea el entorno `github-pages` restringido a esa rama, y cualquier
-   despliegue desde otra se rechaza antes de ejecutar ningún paso (el job falla en
-   segundos y sin registros, que despista bastante).
+2. **El entorno `github-pages` solo admite despliegues desde una lista de ramas.**
+   Al activar Pages, GitHub crea ese entorno y le fija **la rama que fuera la
+   principal en ese momento**, con el nombre escrito literalmente. Cambiar después
+   la rama principal del repositorio **no** actualiza esa lista.
 
-   > Ya resuelto: la rama por defecto es `main`, que es también la que dispara el
-   > workflow. Si algún día se cambia la rama por defecto, hay que cambiar también
-   > el `on: push: branches` de `deploy.yml`, o los despliegues volverán a
-   > rechazarse sin explicación.
+   Los despliegues desde una rama que no esté en la lista se rechazan antes de
+   ejecutar ningún paso: el job aparece en rojo a los 2 segundos, sin registros y
+   sin ningún mensaje de error. Es un fallo muy difícil de diagnosticar, porque
+   parece un problema del workflow y no lo es.
 
-Con las dos cosas hechas, **cada push a `main` publica solo**. También puede
-lanzarse a mano desde la pestaña *Actions* → *Run workflow*.
+   > **Pendiente:** el entorno sigue admitiendo solo
+   > `claude/discoteca-level-website-714kk1`, la rama que era principal cuando se
+   > activó Pages. Para que los push a `main` publiquen solos hay que actualizarlo
+   > en [Settings → Environments → github-pages](https://github.com/matiasdangeli/discotecalevelandorra/settings/environments),
+   > en *Deployment branches and tags*: añadir `main`, o poner *All branches*.
+   >
+   > Mientras tanto se publica lanzando el workflow a mano desde *Actions* →
+   > *Run workflow*, eligiendo la rama que sí está permitida.
+
+**Cómo comprobar cuál es el problema:** si un despliegue falla en segundos y sin
+registros, es la lista de ramas del entorno. Si falla dentro de un paso concreto y
+con registros, es el sitio o el workflow.
 
 Para servirlo en `discotecalevelandorra.com` hay que apuntar el DNS a GitHub Pages
 y añadir el dominio en Settings → Pages. El dominio está ahora en Hostinger con
