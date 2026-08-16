@@ -129,11 +129,15 @@
 
   /* ------------------------------------------------- Enlaces desde config */
 
-  function waLink() {
+  var WA_BASE = "https://wa.me/";
+
+  /** topic: "vip" (por defecto), "events" o "booking" — ver waMessages en config.js */
+  function waLink(topic) {
     if (!isSet(CFG.whatsapp)) return null;
     var num = String(CFG.whatsapp).replace(/\D/g, "");
-    var msg = (CFG.waMessages && (CFG.waMessages[state.lang] || CFG.waMessages.es)) || "";
-    return "https://wa.me/" + num + (msg ? "?text=" + encodeURIComponent(msg) : "");
+    var set = (CFG.waMessages && (CFG.waMessages[topic] || CFG.waMessages.vip)) || {};
+    var msg = set[state.lang] || set.es || "";
+    return WA_BASE + num + (msg ? "?text=" + encodeURIComponent(msg) : "");
   }
 
   /**
@@ -156,41 +160,51 @@
     };
 
     $$("[data-link]").forEach(function (el) {
-      var key = el.getAttribute("data-link");
-      var href = map[key];
+      var href = map[el.getAttribute("data-link")];
+      var viaFallback = false;
 
-      if (href) {
-        el.href = href;
-        el.removeAttribute("aria-disabled");
-        el.classList.remove("is-hidden");
-        // Restaurar etiqueta original si antes cayó al fallback
-        var original = el.getAttribute("data-i18n-original");
-        if (original) {
-          el.setAttribute("data-i18n", original);
-          el.removeAttribute("data-i18n-original");
-          var v = t(original);
-          if (v) el.textContent = v;
+      // Sin dato: probamos con el canal alternativo declarado en el HTML
+      if (!href) {
+        var alt = el.getAttribute("data-link-fallback");
+        if (alt && map[alt]) {
+          href = map[alt];
+          viaFallback = true;
         }
+      }
+
+      if (!href) {
+        el.classList.add("is-hidden");
         return;
       }
 
-      // Sin dato: probamos con el canal alternativo declarado en el HTML
-      var alt = el.getAttribute("data-link-fallback");
-      if (alt === "instagram" && fallback) {
-        el.href = fallback;
+      // El texto del chat de WhatsApp depende del motivo del contacto
+      if (href.indexOf(WA_BASE) === 0) {
+        href = waLink(el.getAttribute("data-wa-topic")) || href;
+      }
+
+      el.href = href;
+      el.removeAttribute("aria-disabled");
+      el.classList.remove("is-hidden");
+
+      if (viaFallback) {
         el.target = "_blank";
         el.rel = "noopener";
-        var altKey = el.getAttribute("data-i18n-fallback");
-        if (altKey) {
-          if (!el.getAttribute("data-i18n-original")) {
-            el.setAttribute("data-i18n-original", el.getAttribute("data-i18n") || "");
-          }
-          el.setAttribute("data-i18n", altKey);
-          var txt = t(altKey);
-          if (txt) el.textContent = txt;
+      }
+
+      // La etiqueta cambia si se usó el canal alternativo, y se restaura si no
+      var swapTo = viaFallback ? el.getAttribute("data-i18n-fallback") : null;
+      var original = el.getAttribute("data-i18n-original");
+
+      if (swapTo) {
+        if (!original) {
+          el.setAttribute("data-i18n-original", el.getAttribute("data-i18n") || "");
         }
-      } else {
-        el.classList.add("is-hidden");
+        el.setAttribute("data-i18n", swapTo);
+        if (t(swapTo)) el.textContent = t(swapTo);
+      } else if (original) {
+        el.setAttribute("data-i18n", original);
+        el.removeAttribute("data-i18n-original");
+        if (t(original)) el.textContent = t(original);
       }
     });
 

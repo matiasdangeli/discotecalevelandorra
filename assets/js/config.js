@@ -20,17 +20,33 @@ window.LEVEL_CONFIG = {
   /* --- Contacto ----------------------------------------------------------
      whatsapp: solo dígitos, con prefijo de país y SIN "+" ni espacios.
                 Andorra = 376. Ejemplo válido: "376333444"                  */
-  whatsapp: "PENDIENTE",
-  phoneDisplay: "PENDIENTE",
+  whatsapp: "34651996088",
+  phoneDisplay: "+34 651 99 60 88",
   emailEvents: "PENDIENTE",
   emailBooking: "PENDIENTE",
 
-  /* --- Mensajes prerellenados de WhatsApp -------------------------------- */
+  /* --- Mensajes prerellenados de WhatsApp --------------------------------
+     Cada botón abre el chat con el texto ya escrito según el motivo, así se
+     sabe de entrada qué quiere la persona. "vip" es el que se usa por defecto. */
   waMessages: {
-    es: "Hola Level! Quería información para reservar una mesa VIP.",
-    ca: "Hola Level! Volia informació per reservar una taula VIP.",
-    en: "Hi Level! I'd like information about booking a VIP table.",
-    fr: "Bonjour Level ! Je souhaite des informations pour réserver une table VIP."
+    vip: {
+      es: "Hola Level! Quería información para reservar una mesa VIP.",
+      ca: "Hola Level! Volia informació per reservar una taula VIP.",
+      en: "Hi Level! I'd like information about booking a VIP table.",
+      fr: "Bonjour Level ! Je souhaite des informations pour réserver une table VIP."
+    },
+    events: {
+      es: "Hola Level! Quería organizar un evento privado y me gustaría información.",
+      ca: "Hola Level! Volia organitzar un esdeveniment privat i m'agradaria informació.",
+      en: "Hi Level! I'd like to organise a private event and would like some information.",
+      fr: "Bonjour Level ! Je souhaite organiser un événement privé et j'aimerais des informations."
+    },
+    booking: {
+      es: "Hola Level! Os escribo por booking / prensa.",
+      ca: "Hola Level! Us escric per booking / premsa.",
+      en: "Hi Level! I'm getting in touch about booking / press.",
+      fr: "Bonjour Level ! Je vous contacte pour booking / presse."
+    }
   },
 
   /* --- Ubicación --------------------------------------------------------- */

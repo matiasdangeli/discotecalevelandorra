@@ -12,20 +12,21 @@ frameworks ni build: se abre `index.html` y funciona.
 Parte del contenido se ha redactado a partir de fuentes públicas y de material de la
 web anterior. **Todo esto hay que revisarlo** antes de poner el sitio en producción.
 
-### Bloqueante — sin esto hay botones que caen a Instagram
+### Pendiente en `assets/js/config.js`
 
-En `assets/js/config.js`, sustituir los valores `"PENDIENTE"`:
-
-| Campo | Qué es |
+| Campo | Estado |
 |---|---|
-| `whatsapp` | Número de reservas, solo dígitos con prefijo y sin `+` (Andorra = `376…`) |
-| `phoneDisplay` | El mismo número, formateado para mostrar |
-| `emailEvents` | Email de eventos privados |
-| `emailBooking` | Email de booking y prensa |
+| `whatsapp` / `phoneDisplay` | ✅ `+34 651 99 60 88` |
+| `emailEvents` | ⬜ `PENDIENTE` |
+| `emailBooking` | ⬜ `PENDIENTE` |
 
-> Mientras sigan en `PENDIENTE`, esos botones apuntan a Instagram automáticamente
-> y no se duplican con el botón de Instagram que ya hubiera al lado. La web nunca
-> muestra un enlace roto, pero se pierde el canal directo.
+> Mientras un campo siga en `PENDIENTE`, su botón cae automáticamente a WhatsApp
+> (o a Instagram si tampoco hubiera WhatsApp) y no se duplica con el botón que ya
+> hubiera al lado. La web nunca muestra un enlace roto.
+
+Cada botón de WhatsApp abre el chat con el mensaje ya escrito según el motivo
+—reserva VIP, evento privado o booking/prensa— y en el idioma que esté viendo la
+persona. Los textos están en `config.js` → `waMessages`.
 
 ### Confirmar (redactado como suposición razonable)
 
