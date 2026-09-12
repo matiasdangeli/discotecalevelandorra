@@ -247,3 +247,23 @@ Los metadatos del sitio (canonical, Open Graph, sitemap) ya apuntan a
 - Logo y vídeos: material propio de Level Andorra, recuperado de la web anterior.
 - Tipografías Archivo e Inter: SIL Open Font License 1.1 (`assets/fonts/OFL.txt`).
 - Iconos: SVG propios, dibujados a mano en el HTML.
+
+
+## Panel visual para Hostinger
+
+El directorio `panel/` incluye un administrador en PHP pensado para la community manager.
+GitHub Pages muestra la web pública, pero no ejecuta PHP: el panel funciona cuando la carpeta
+completa se sube al hosting de Hostinger.
+
+### Primera instalación
+
+1. Subir todos los archivos del repositorio a `public_html`.
+2. Comprobar que PHP 8.1 o superior esté activo.
+3. Dar permiso de escritura a `assets/data` y `assets/img/events` desde el administrador de archivos de Hostinger.
+4. Abrir `https://discotecalevelandorra.com/panel/`.
+5. Crear la contraseña en el primer acceso. El hash se guarda fuera del repositorio en `panel/.admin-password`.
+
+Desde el panel se pueden crear, editar, ocultar y eliminar eventos; subir flyers; definir sala,
+fecha, horario, artistas, estilo, edad, condiciones de entrada, enlace de tickets y WhatsApp.
+Los eventos se agrupan automáticamente por fin de semana usando `Europe/Andorra`. Cuando termina
+la última noche del grupo, ese fin de semana pasa a «Ediciones pasadas» y la web muestra el próximo.
