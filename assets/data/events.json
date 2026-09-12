@@ -17,7 +17,8 @@
     "entryText": "+16: 5 € con consumición · +18: entrada gratuita",
     "ticketsUrl": "https://site.fourvenues.com/es/level-andorra",
     "whatsapp": "34651996088",
-    "_activo": true
+    "_activo": true,
+    "id": "level-class-2026-09-11"
   },
   {
     "weekend": "2026-09-11",
@@ -38,7 +39,8 @@
     "entryText": "+16: 5 € con consumición · +18: entrada gratuita",
     "ticketsUrl": "https://site.fourvenues.com/es/level-andorra",
     "whatsapp": "34651996088",
-    "_activo": true
+    "_activo": true,
+    "id": "nueva-temporada-2026-09-12"
   },
   {
     "weekend": "2026-09-11",
@@ -58,7 +60,8 @@
     "entryText": "Reggaetón old school · Merengue · Salsa · Bachata · Vallenato",
     "ticketsUrl": "https://site.fourvenues.com/es/level-andorra",
     "whatsapp": "34651996088",
-    "_activo": true
+    "_activo": true,
+    "id": "latin-flow-2026-09-12"
   },
   {
     "weekend": "2026-09-11",
@@ -78,6 +81,7 @@
     "entryText": "Entrada gratis toda la noche · RKT · Reggaetón · Cuarteto",
     "ticketsUrl": "",
     "whatsapp": "34651996088",
-    "_activo": true
+    "_activo": true,
+    "id": "la-misa-2026-09-13"
   }
 ]
