@@ -1497,3 +1497,123 @@ ul, ol { list-style: none; padding: 0; }
   .header, .mobile-nav, .cookie, .hero__media, .grain, .ticker { display: none !important; }
   body { background: #fff; color: #000; }
 }
+
+
+/* WEEKEND AGENDA V2 */
+.weekend-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: .6rem 2rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--line);
+}
+.weekend-head h3 {
+  width: 100%;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1;
+  text-transform: capitalize;
+}
+.weekend-head p { color: var(--fg-mute); }
+
+.weekend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+.event-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: linear-gradient(165deg, rgba(23,23,31,.98), rgba(10,10,15,.98));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  transition: transform .35s var(--ease), border-color .35s var(--ease);
+}
+.event-card:hover { transform: translateY(-4px); border-color: rgba(255,194,75,.42); }
+.event-card__flyer {
+  appearance: none;
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  padding: 0;
+  border: 0;
+  background: #09090d;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+.event-card__flyer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .65s var(--ease);
+}
+.event-card:hover .event-card__flyer img { transform: scale(1.025); }
+.event-card__placeholder {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 9 / 12;
+  background:
+    radial-gradient(circle at 75% 20%, rgba(255,194,75,.18), transparent 35%),
+    radial-gradient(circle at 20% 75%, rgba(255,31,122,.2), transparent 40%),
+    var(--ink-850);
+}
+.event-card__placeholder span {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.event-card__content { display: flex; flex-direction: column; flex: 1; gap: .85rem; padding: 1.25rem; }
+.event-card__top { display: flex; justify-content: space-between; gap: .75rem; align-items: center; }
+.event-card__room {
+  color: var(--honey);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.event-card__date { color: var(--fg-mute); font-size: .72rem; text-transform: capitalize; }
+.event-card__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.event-card__hours { display: flex; align-items: center; gap: .45rem; color: var(--fg-dim); font-size: .78rem; font-weight: 700; }
+.event-card__hours svg { width: 1rem; height: 1rem; color: var(--magenta-hot); }
+.event-card__lineup { color: var(--fg); font-size: .86rem; line-height: 1.55; }
+.event-card__tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+.event-card__actions { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: auto; padding-top: .4rem; }
+.event-card__actions .btn { flex: 1 1 auto; text-align: center; }
+
+.flyer-modal[hidden] { display: none; }
+.flyer-modal { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 1rem; }
+.flyer-modal__backdrop { position: absolute; inset: 0; border: 0; background: rgba(0,0,0,.88); backdrop-filter: blur(14px); }
+.flyer-modal__panel { position: relative; z-index: 1; height: min(92svh, 960px); max-width: 100%; }
+.flyer-modal__panel img { height: 100%; max-width: 100%; object-fit: contain; border-radius: var(--radius); box-shadow: 0 24px 100px rgba(0,0,0,.7); }
+.flyer-modal__close {
+  position: absolute; z-index: 2; top: .5rem; right: .5rem;
+  width: 2.6rem; height: 2.6rem; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.28); background: rgba(5,5,8,.78);
+  color: #fff; font-size: 1.7rem; line-height: 1; cursor: pointer;
+}
+@media (max-width: 620px) {
+  .section-head--split .btn-group { width: 100%; }
+  .section-head--split .btn-group .btn { flex: 1; }
+  .weekend-grid { grid-template-columns: 1fr 1fr; gap: .65rem; }
+  .event-card__content { padding: .85rem; }
+  .event-card__top { align-items: flex-start; flex-direction: column; gap: .25rem; }
+  .event-card__name { font-size: 1.05rem; }
+  .event-card__actions { flex-direction: column; }
+}
+@media (max-width: 420px) {
+  .weekend-grid { grid-template-columns: 1fr; }
+}
