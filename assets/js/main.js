@@ -366,8 +366,7 @@
       clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.2 1.9"/>',
       disc: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4"/>'
     };
-    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || "") + "</svg>";
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || "") + "</svg>";
   }
 
   function esc(str) {
@@ -376,23 +375,62 @@
       .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
 
-  function usableEvents(list) {
+  function nowKeyInAndorra() {
+    var parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: CFG.timezone || "Europe/Andorra",
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", hour12: false
+    }).formatToParts(new Date());
+    var out = {};
+    parts.forEach(function (p) { out[p.type] = p.value; });
+    var hour = out.hour === "24" ? "00" : out.hour;
+    return out.year + "-" + out.month + "-" + out.day + "T" + hour + ":" + out.minute;
+  }
+
+  function eventEnd(ev) {
+    if (ev.endAt) return ev.endAt.slice(0, 16);
+    return ev.date + "T" + (ev.endTime || "06:00");
+  }
+
+  function activeWeekend(list) {
     if (!Array.isArray(list)) return [];
-    var todayISO = new Date().toISOString().slice(0, 10);
-    return list
-      .filter(function (ev) {
-        if (!ev || ev._activo === false) return false;
-        if (!ev.date || !ev.name) return false;
-        return ev.date >= todayISO;
-      })
-      .sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+    var now = nowKeyInAndorra();
+    var groups = {};
+    list.filter(function (ev) {
+      return ev && ev._activo !== false && ev.date && ev.name && ev.weekend;
+    }).forEach(function (ev) {
+      (groups[ev.weekend] = groups[ev.weekend] || []).push(ev);
+    });
+
+    var weekends = Object.keys(groups).sort();
+    for (var i = 0; i < weekends.length; i++) {
+      var group = groups[weekends[i]];
+      var finalEnd = group.reduce(function (latest, ev) {
+        return eventEnd(ev) > latest ? eventEnd(ev) : latest;
+      }, "");
+      if (finalEnd > now) {
+        return group.sort(function (a, b) {
+          var ak = a.date + "T" + (a.startTime || "00:00");
+          var bk = b.date + "T" + (b.startTime || "00:00");
+          if (ak === bk) return (a.room || "").localeCompare(b.room || "");
+          return ak < bk ? -1 : 1;
+        });
+      }
+    }
+    return [];
+  }
+
+  function eventWhatsapp(ev) {
+    var num = String(ev.whatsapp || CFG.whatsapp || "").replace(/\D/g, "");
+    if (!num) return "";
+    var msg = ev.whatsappMessage || ("Hola Level! Quería información sobre " + ev.name + ".");
+    return "https://wa.me/" + num + "?text=" + encodeURIComponent(msg);
   }
 
   function renderEvents() {
     var wrap = $("[data-agenda]");
     if (!wrap || eventsCache === null) return;
-
-    var list = usableEvents(eventsCache);
+    var list = activeWeekend(eventsCache);
     var empty = $("[data-agenda-empty]");
 
     if (!list.length) {
@@ -405,69 +443,95 @@
     if (empty) empty.hidden = true;
     wrap.hidden = false;
 
-    var months = MONTHS[state.lang] || MONTHS.es;
+    var first = list[0];
+    var last = list[list.length - 1];
+    var dateFmt = new Intl.DateTimeFormat(state.lang === "en" ? "en-GB" : state.lang, {
+      timeZone: CFG.timezone || "Europe/Andorra",
+      weekday: "long", day: "numeric", month: "long"
+    });
 
-    wrap.innerHTML = list.map(function (ev) {
-      var parts = ev.date.split("-");
-      var day = parts[2];
-      var month = months[parseInt(parts[1], 10) - 1] || "";
+    function dateLabel(iso) {
+      return dateFmt.format(new Date(iso + "T12:00:00Z"));
+    }
 
-      var meta = [];
-      if (ev.room) {
-        meta.push("<span>" + icon("pin") + esc(ev.room) + "</span>");
-      }
-      if (ev.doors) {
-        meta.push("<span>" + icon("clock") + t("agenda.doors") + " " + esc(ev.doors) + "</span>");
-      }
-      if (Array.isArray(ev.tags)) {
-        ev.tags.forEach(function (tag) {
-          meta.push("<span>" + icon("disc") + esc(tag) + "</span>");
-        });
-      }
+    var weekendTitle = dateLabel(first.date);
+    if (last.date !== first.date) weekendTitle += " — " + dateLabel(last.date);
+
+    var cards = list.map(function (ev) {
+      var flyer = isSet(ev.flyer)
+        ? '<button class="event-card__flyer" type="button" data-flyer-open="' + esc(ev.flyer) + '" aria-label="Ver flyer de ' + esc(ev.name) + '"><img src="' + esc(ev.flyer) + '" alt="Flyer de ' + esc(ev.name) + '" loading="lazy"></button>'
+        : '<div class="event-card__placeholder"><span>' + esc(ev.room || "Level") + '</span></div>';
 
       var lineup = Array.isArray(ev.lineup) && ev.lineup.length
-        ? '<p class="event__lineup"><strong>' + ev.lineup.map(esc).join("</strong> · <strong>") + "</strong></p>"
+        ? '<p class="event-card__lineup">' + ev.lineup.map(esc).join(" · ") + "</p>"
         : "";
 
-      var href = isSet(ev.ticketsUrl) ? ev.ticketsUrl : (isSet(CFG.ticketsUrl) ? CFG.ticketsUrl : "");
-      var cta = ev.soldOut
-        ? '<span class="tag tag--hot">' + t("agenda.soldout") + "</span>"
-        : (href
-          ? '<a class="btn btn--primary btn--sm" href="' + esc(href) + '" target="_blank" rel="noopener">' +
-            t("agenda.tickets") + "</a>"
-          : "");
+      var tags = [];
+      if (ev.genre) tags.push(ev.genre);
+      if (ev.age) tags.push(ev.age);
+      if (ev.entryText) tags.push(ev.entryText);
 
-      return '<article class="event reveal">' +
-        '<div class="event__date"><span class="event__day">' + esc(day) + "</span>" +
-        '<span class="event__month">' + esc(month) + "</span></div>" +
-        '<div class="event__body"><h3 class="event__name">' + esc(ev.name) + "</h3>" +
-        (meta.length ? '<div class="event__meta">' + meta.join("") + "</div>" : "") +
-        lineup + "</div>" +
-        (cta ? '<div class="event__cta">' + cta + "</div>" : "") +
-        "</article>";
+      var ticketUrl = isSet(ev.ticketsUrl) ? ev.ticketsUrl : (isSet(CFG.ticketsUrl) ? CFG.ticketsUrl : "");
+      var wa = eventWhatsapp(ev);
+      var buttons = "";
+      if (ticketUrl) buttons += '<a class="btn btn--primary btn--sm" href="' + esc(ticketUrl) + '" target="_blank" rel="noopener">Entradas</a>';
+      if (wa) buttons += '<a class="btn btn--ghost btn--sm" href="' + esc(wa) + '" target="_blank" rel="noopener">VIP / WhatsApp</a>';
+
+      return '<article class="event-card reveal">' + flyer +
+        '<div class="event-card__content">' +
+          '<div class="event-card__top"><span class="event-card__room">' + esc(ev.room || "Level") + '</span><span class="event-card__date">' + esc(dateLabel(ev.date)) + '</span></div>' +
+          '<h3 class="event-card__name">' + esc(ev.name) + '</h3>' +
+          '<p class="event-card__hours">' + icon("clock") + esc(ev.startTime || "00:00") + " — " + esc(ev.endTime || "05:00") + '</p>' +
+          lineup +
+          (tags.length ? '<div class="event-card__tags">' + tags.map(function (x) { return '<span class="tag">' + esc(x) + '</span>'; }).join("") + '</div>' : "") +
+          (buttons ? '<div class="event-card__actions">' + buttons + '</div>' : "") +
+        '</div></article>';
     }).join("");
 
+    wrap.innerHTML = '<div class="weekend-head"><span class="eyebrow">Este fin de semana</span><h3>' + esc(weekendTitle) + '</h3><p>Sala Level y Sala Honey · Andorra la Vella</p></div><div class="weekend-grid">' + cards + '</div>';
     observeReveals();
+    initFlyerViewer();
     injectEventSchema(list);
+  }
+
+  function initFlyerViewer() {
+    var modal = $("[data-flyer-modal]");
+    if (!modal) return;
+    var img = $("img", modal);
+    $$("[data-flyer-open]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        img.src = btn.getAttribute("data-flyer-open");
+        modal.hidden = false;
+        document.body.classList.add("is-locked");
+      });
+    });
+    $$("[data-flyer-close]", modal).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        modal.hidden = true;
+        img.removeAttribute("src");
+        document.body.classList.remove("is-locked");
+      });
+    });
   }
 
   function injectEventSchema(list) {
     var old = $("#schema-events");
     if (old) old.remove();
     if (!list.length) return;
-
     var addr = CFG.address || {};
-    var data = list.slice(0, 12).map(function (ev) {
+    var data = list.map(function (ev) {
       return {
         "@context": "https://schema.org",
         "@type": "Event",
         name: ev.name,
-        startDate: ev.date + "T" + (ev.doors || "00:00") + ":00+01:00",
+        startDate: ev.date + "T" + (ev.startTime || "00:00") + ":00",
+        endDate: ev.date + "T" + (ev.endTime || "05:00") + ":00",
+        image: ev.flyer || undefined,
         eventStatus: "https://schema.org/EventScheduled",
         eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
         location: {
           "@type": "NightClub",
-          name: "Level Andorra",
+          name: "Level Andorra · " + (ev.room || ""),
           address: {
             "@type": "PostalAddress",
             streetAddress: addr.street,
@@ -476,17 +540,15 @@
             addressCountry: addr.countryCode
           }
         },
-        performer: (ev.lineup || []).map(function (n) { return { "@type": "PerformingGroup", name: n }; }),
-        offers: isSet(ev.ticketsUrl) || isSet(CFG.ticketsUrl)
-          ? {
-            "@type": "Offer",
-            url: isSet(ev.ticketsUrl) ? ev.ticketsUrl : CFG.ticketsUrl,
-            availability: ev.soldOut ? "https://schema.org/SoldOut" : "https://schema.org/InStock"
-          }
-          : undefined
+        performer: (ev.lineup || []).map(function (n) { return { "@type": "Person", name: n }; }),
+        offers: {
+          "@type": "Offer",
+          url: ev.ticketsUrl || CFG.ticketsUrl,
+          description: ev.entryText || "",
+          availability: ev.soldOut ? "https://schema.org/SoldOut" : "https://schema.org/InStock"
+        }
       };
     });
-
     var s = document.createElement("script");
     s.type = "application/ld+json";
     s.id = "schema-events";
