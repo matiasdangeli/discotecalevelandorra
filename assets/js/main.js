@@ -359,6 +359,16 @@
   };
 
   var eventsCache = null;
+  var AGENDA_COPY = {
+    es: { eyebrow:"Este fin de semana", venue:"Sala Level y Sala Honey · Andorra la Vella", tickets:"Entradas", vip:"VIP / WhatsApp", flyer:"Ver flyer de " },
+    ca: { eyebrow:"Aquest cap de setmana", venue:"Sala Level i Sala Honey · Andorra la Vella", tickets:"Entrades", vip:"VIP / WhatsApp", flyer:"Veure el flyer de " },
+    en: { eyebrow:"This weekend", venue:"Level Room and Honey Room · Andorra la Vella", tickets:"Tickets", vip:"VIP / WhatsApp", flyer:"View flyer for " },
+    fr: { eyebrow:"Ce week-end", venue:"Salle Level et Salle Honey · Andorre-la-Vieille", tickets:"Billets", vip:"VIP / WhatsApp", flyer:"Voir l’affiche de " }
+  };
+  function agendaCopy(key) {
+    var copy = AGENDA_COPY[state.lang] || AGENDA_COPY.es;
+    return copy[key] || AGENDA_COPY.es[key] || "";
+  }
 
   function icon(name) {
     var paths = {
@@ -459,7 +469,7 @@
 
     var cards = list.map(function (ev) {
       var flyer = isSet(ev.flyer)
-        ? '<button class="event-card__flyer" type="button" data-flyer-open="' + esc(ev.flyer) + '" aria-label="Ver flyer de ' + esc(ev.name) + '"><img src="' + esc(ev.flyer) + '" alt="Flyer de ' + esc(ev.name) + '" loading="lazy"></button>'
+        ? '<button class="event-card__flyer" type="button" data-flyer-open="' + esc(ev.flyer) + '" aria-label="' + esc(agendaCopy("flyer")) + esc(ev.name) + '"><img src="' + esc(ev.flyer) + '" alt="Flyer de ' + esc(ev.name) + '" loading="lazy"></button>'
         : '<div class="event-card__placeholder"><span>' + esc(ev.room || "Level") + '</span></div>';
 
       var lineup = Array.isArray(ev.lineup) && ev.lineup.length
@@ -474,8 +484,8 @@
       var ticketUrl = isSet(ev.ticketsUrl) ? ev.ticketsUrl : (isSet(CFG.ticketsUrl) ? CFG.ticketsUrl : "");
       var wa = eventWhatsapp(ev);
       var buttons = "";
-      if (ticketUrl) buttons += '<a class="btn btn--primary btn--sm" href="' + esc(ticketUrl) + '" target="_blank" rel="noopener">Entradas</a>';
-      if (wa) buttons += '<a class="btn btn--ghost btn--sm" href="' + esc(wa) + '" target="_blank" rel="noopener">VIP / WhatsApp</a>';
+      if (ticketUrl) buttons += '<a class="btn btn--primary btn--sm" href="' + esc(ticketUrl) + '" target="_blank" rel="noopener">' + esc(agendaCopy("tickets")) + '</a>';
+      if (wa) buttons += '<a class="btn btn--ghost btn--sm" href="' + esc(wa) + '" target="_blank" rel="noopener">' + esc(agendaCopy("vip")) + '</a>';
 
       return '<article class="event-card reveal">' + flyer +
         '<div class="event-card__content">' +
@@ -488,7 +498,7 @@
         '</div></article>';
     }).join("");
 
-    wrap.innerHTML = '<div class="weekend-head"><span class="eyebrow">Este fin de semana</span><h3>' + esc(weekendTitle) + '</h3><p>Sala Level y Sala Honey · Andorra la Vella</p></div><div class="weekend-grid">' + cards + '</div>';
+    wrap.innerHTML = '<div class="weekend-head"><span class="eyebrow">' + esc(agendaCopy("eyebrow")) + '</span><h3>' + esc(weekendTitle) + '</h3><p>' + esc(agendaCopy("venue")) + '</p></div><div class="weekend-grid">' + cards + '</div>';
     observeReveals();
     initFlyerViewer();
     injectEventSchema(list);
