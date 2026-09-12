@@ -1,14 +1,83 @@
 [
   {
-    "_comentario": "PLANTILLA — copia este bloque para cada fecha especial y borra este campo _comentario. Si el array queda vacío ([]), la web muestra automáticamente un aviso elegante con enlace a Instagram. Campos: date (AAAA-MM-DD, obligatorio) · name (obligatorio) · room · lineup (lista de nombres) · doors · ticketsUrl (si se omite, usa la URL general de config.js) · soldOut (true/false) · tags (lista corta)",
-    "date": "2026-12-31",
-    "name": "Nochevieja en Level",
+    "weekend": "2026-09-11",
+    "date": "2026-09-11",
+    "endAt": "2026-09-12T05:00",
+    "name": "Level Class",
+    "room": "Sala Level",
+    "genre": "Música comercial",
+    "startTime": "00:00",
+    "endTime": "05:00",
+    "flyer": "assets/img/events/level-viernes-11.webp",
+    "lineup": [
+      "DJ RenzoFlow",
+      "DJ Dalmau"
+    ],
+    "age": "+16 / +18",
+    "entryText": "+16: 5 € con consumición · +18: entrada gratuita",
+    "ticketsUrl": "https://site.fourvenues.com/es/level-andorra",
+    "whatsapp": "34651996088",
+    "_activo": true
+  },
+  {
+    "weekend": "2026-09-11",
+    "date": "2026-09-12",
+    "endAt": "2026-09-13T05:00",
+    "name": "Nueva Temporada",
+    "room": "Sala Level",
+    "genre": "Música comercial",
+    "startTime": "00:00",
+    "endTime": "05:00",
+    "flyer": "assets/img/events/level-sabado-12.webp",
+    "lineup": [
+      "DJ RenzoFlow",
+      "Jowix",
+      "DJ Dalmau"
+    ],
+    "age": "+16 / +18",
+    "entryText": "+16: 5 € con consumición · +18: entrada gratuita",
+    "ticketsUrl": "https://site.fourvenues.com/es/level-andorra",
+    "whatsapp": "34651996088",
+    "_activo": true
+  },
+  {
+    "weekend": "2026-09-11",
+    "date": "2026-09-12",
+    "endAt": "2026-09-13T05:00",
+    "name": "Latin Flow",
     "room": "Sala Honey",
-    "lineup": ["DJ invitado", "Residentes Level"],
-    "doors": "00:00",
+    "genre": "Latino",
+    "startTime": "00:00",
+    "endTime": "05:00",
+    "flyer": "assets/img/events/honey-sabado-12.webp",
+    "lineup": [
+      "DJ RenzoFlow",
+      "DJ Dalmau"
+    ],
+    "age": "+18",
+    "entryText": "Reggaetón old school · Merengue · Salsa · Bachata · Vallenato",
+    "ticketsUrl": "https://site.fourvenues.com/es/level-andorra",
+    "whatsapp": "34651996088",
+    "_activo": true
+  },
+  {
+    "weekend": "2026-09-11",
+    "date": "2026-09-13",
+    "endAt": "2026-09-13T05:00",
+    "name": "La Misa de los Domingos",
+    "room": "Sala Level",
+    "genre": "Fiesta argentina",
+    "startTime": "00:00",
+    "endTime": "05:00",
+    "flyer": "assets/img/events/level-domingo-13.webp",
+    "lineup": [
+      "DJ Javith",
+      "Elio Anazco"
+    ],
+    "age": "",
+    "entryText": "Entrada gratis toda la noche · RKT · Reggaetón · Cuarteto",
     "ticketsUrl": "",
-    "soldOut": false,
-    "tags": ["Especial", "Fin de año"],
-    "_activo": false
+    "whatsapp": "34651996088",
+    "_activo": true
   }
 ]
