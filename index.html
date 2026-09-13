@@ -93,9 +93,7 @@
 
     <nav class="nav" aria-label="Navegación principal">
       <a class="nav__link" href="#agenda" data-spy="agenda" data-i18n="nav.agenda">Agenda</a>
-      <a class="nav__link" href="#salas" data-spy="salas" data-i18n="nav.rooms">Salas</a>
       <a class="nav__link" href="#vip" data-spy="vip" data-i18n="nav.vip">VIP</a>
-      <a class="nav__link" href="#galeria" data-spy="galeria" data-i18n="nav.gallery">Galería</a>
       <a class="nav__link" href="#info" data-spy="info" data-i18n="nav.info">Info</a>
       <a class="nav__link" href="#faq" data-spy="faq" data-i18n="nav.faq">FAQ</a>
       <a class="nav__link" href="#contacto" data-spy="contacto" data-i18n="nav.contact">Contacto</a>
@@ -130,9 +128,7 @@
   <div class="container">
     <ul class="mobile-nav__list">
       <li><a class="mobile-nav__link" href="#agenda" data-i18n="nav.agenda">Agenda</a></li>
-      <li><a class="mobile-nav__link" href="#salas" data-i18n="nav.rooms">Salas</a></li>
       <li><a class="mobile-nav__link" href="#vip" data-i18n="nav.vip">VIP</a></li>
-      <li><a class="mobile-nav__link" href="#galeria" data-i18n="nav.gallery">Galería</a></li>
       <li><a class="mobile-nav__link" href="#info" data-i18n="nav.info">Info</a></li>
       <li><a class="mobile-nav__link" href="#faq" data-i18n="nav.faq">FAQ</a></li>
       <li><a class="mobile-nav__link" href="#contacto" data-i18n="nav.contact">Contacto</a></li>
@@ -150,56 +146,19 @@
 
 <main id="main">
 
-<!-- ================================================================== HERO -->
-<section class="hero" id="top">
-  <div class="hero__media" data-hero-media aria-hidden="true">
-    <img src="assets/img/poster-hero.jpg" alt="" width="540" height="960" fetchpriority="high" decoding="async">
-    <video data-hero-video data-src="assets/video/hero.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
-  </div>
-  <div class="hero__scrim" aria-hidden="true"></div>
+<!-- ========================================================== PRESENTACIÓN -->
+<section class="intro" id="top">
   <div class="bg-hex" aria-hidden="true"></div>
-
-  <div class="container hero__inner">
-    <p class="hero__live" data-status hidden></p>
-
-    <div class="hero__title">
-      <h1 class="h-display"><span class="skew text-gradient">Level</span></h1>
-      <p class="hero__sub" data-i18n="hero.sub">Andorra</p>
-    </div>
-
-    <p class="hero__claim" data-i18n="hero.claim">Que no te lo cuenten. Ven a vivir la noche de la que todos hablan al día siguiente.</p>
-
+  <div class="container intro__inner reveal">
+    <h1 class="intro__heading"><img class="intro__logo" src="assets/img/level-logo.png" alt="Level Andorra" width="1080" height="309" fetchpriority="high"></h1>
+    <p class="intro__place">ANDORRA LA VELLA</p>
+    <p class="lede" data-i18n="hero.claim">Que no te lo cuenten. Ven a vivir la noche de la que todos hablan al día siguiente.</p>
     <div class="btn-group">
       <a class="btn btn--primary" data-link="tickets" href="#agenda" target="_blank" rel="noopener" data-i18n="hero.cta1">Comprar entrada</a>
       <a class="btn btn--ghost" href="#vip" data-i18n="hero.cta2">Reservar mesa VIP</a>
     </div>
-
-    <dl class="hero__bar">
-      <div class="hero__stat"><dt data-i18n="hero.stat1.label">Sala insignia</dt><dd data-i18n="hero.stat1.value">Sala Honey</dd></div>
-      <div class="hero__stat"><dt data-i18n="hero.stat2.label">Sonido</dt><dd data-i18n="hero.stat2.value">Martin Audio</dd></div>
-      <div class="hero__stat"><dt data-i18n="hero.stat3.label">Puertas</dt><dd data-i18n="hero.stat3.value">00:00 — 05:00</dd></div>
-      <div class="hero__stat"><dt data-i18n="hero.stat4.label">Dónde</dt><dd data-i18n="hero.stat4.value">Andorra la Vella</dd></div>
-    </dl>
   </div>
-
-  <p class="hero__scroll" data-i18n="hero.scroll" aria-hidden="true">Desliza</p>
 </section>
-
-<!-- ================================================================ TICKER -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker__track" data-ticker>
-    <div class="ticker__group">
-      <span class="ticker__item">Tech House</span><span class="ticker__dot">◆</span>
-      <span class="ticker__item">Techno</span><span class="ticker__dot">◆</span>
-      <span class="ticker__item">House</span><span class="ticker__dot">◆</span>
-      <span class="ticker__item">Sala Honey</span><span class="ticker__dot">◆</span>
-      <span class="ticker__item">Martin Audio</span><span class="ticker__dot">◆</span>
-      <span class="ticker__item">Cachengue</span><span class="ticker__dot">◆</span>
-      <span class="ticker__item">Reservados VIP</span><span class="ticker__dot">◆</span>
-      <span class="ticker__item">Andorra la Vella</span><span class="ticker__dot">◆</span>
-    </div>
-  </div>
-</div>
 
 <!-- ============================================== AGENDA DEL FINDE -->
 <section class="section" id="agenda">
@@ -235,50 +194,6 @@
     <img alt="Flyer del evento">
   </div>
 </div>
-
-<!-- ================================================================= SALAS -->
-<section class="section" id="salas">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow eyebrow--honey" data-i18n="rooms.eyebrow">El club</span>
-      <h2 class="h2" data-i18n="rooms.title">Sonido, luz y una sala con nombre propio</h2>
-      <p class="lede" data-i18n="rooms.lede">Level no es solo una discoteca: es un sistema pensado para que la música se sienta, no solo se escuche.</p>
-    </div>
-
-    <div class="rooms">
-      <article class="room room--honey reveal">
-        <div class="room__hex" aria-hidden="true"></div>
-        <h3 class="h3 text-honey" data-i18n="rooms.honey.title">Sala Honey</h3>
-        <p class="lede" data-i18n="rooms.honey.desc">Nuestra sala insignia. Equipo Martin Audio de última generación bajo un techo de paneles LED hexagonales inspirado en un panal: cada beat se traduce en luz.</p>
-        <ul class="room__specs">
-          <li class="spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14v-3a8 8 0 0 1 16 0v3"/><rect x="2.5" y="13" width="4" height="6" rx="1.6"/><rect x="17.5" y="13" width="4" height="6" rx="1.6"/></svg><span data-i18n="rooms.honey.s1">Martin Audio</span></li>
-          <li class="spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 7.5 4.4v9L12 20.8 4.5 16.4v-9z"/></svg><span data-i18n="rooms.honey.s2">LED hexagonal</span></li>
-          <li class="spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4"/></svg><span data-i18n="rooms.honey.s3">House · Techno</span></li>
-        </ul>
-      </article>
-
-      <article class="room room--main reveal">
-        <div class="room__hex" aria-hidden="true" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='69' viewBox='0 0 56 97'%3E%3Cpath d='M28 0l28 16.2v32.3L28 64.6 0 48.5V16.2zM28 48.5l28 16.2v32.3' fill='none' stroke='%23ff1f7a' stroke-width='1.5'/%3E%3C/svg%3E&quot;)"></div>
-        <h3 class="h3" data-i18n="rooms.main.title">Pista principal</h3>
-        <p class="lede" data-i18n="rooms.main.desc">El corazón del club. Espacio abierto, cabina a la vista y una programación que va del cachengue al tech house sin bajar el pulso.</p>
-        <ul class="room__specs">
-          <li class="spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4"/></svg><span data-i18n="rooms.main.s1">Cabina a la vista</span></li>
-          <li class="spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 12h3l2.5-6 5 12L17 12h3"/></svg><span data-i18n="rooms.main.s2">Open format</span></li>
-        </ul>
-      </article>
-
-      <article class="room room--vip reveal">
-        <div class="room__hex" aria-hidden="true" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='69' viewBox='0 0 56 97'%3E%3Cpath d='M28 0l28 16.2v32.3L28 64.6 0 48.5V16.2zM28 48.5l28 16.2v32.3' fill='none' stroke='%237b3bff' stroke-width='1.5'/%3E%3C/svg%3E&quot;)"></div>
-        <h3 class="h3" data-i18n="rooms.vip.title">Zona VIP</h3>
-        <p class="lede" data-i18n="rooms.vip.desc">Reservados con servicio de botella, camarero dedicado y la mejor vista de la pista, a un paso de la acción.</p>
-        <ul class="room__specs">
-          <li class="spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3h4v3.5l2.4 3.6a3 3 0 0 1 .6 1.8V19a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-7.1a3 3 0 0 1 .6-1.8L10 6.5z"/></svg><span data-i18n="rooms.vip.s1">Servicio de botella</span></li>
-          <li class="spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0"/></svg><span data-i18n="rooms.vip.s2">Camarero dedicado</span></li>
-        </ul>
-      </article>
-    </div>
-  </div>
-</section>
 
 <!-- =================================================================== VIP -->
 <section class="section" id="vip">
@@ -322,42 +237,6 @@
             <div><p class="perk__title" data-i18n="vip.p6.title">Reserva en un minuto</p><p class="perk__text" data-i18n="vip.p6.text">Escríbenos por WhatsApp y lo cerramos al momento.</p></div>
           </li>
         </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- =============================================================== GALERÍA -->
-<section class="section" id="galeria">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow" data-i18n="gallery.eyebrow">Galería</span>
-      <h2 class="h2" data-i18n="gallery.title">Level en movimiento</h2>
-      <p class="lede" data-i18n="gallery.lede">Un vistazo a lo que pasa cuando se apagan las luces.</p>
-    </div>
-
-    <div class="reels">
-      <figure class="reel reveal" data-reel>
-        <video data-src="assets/video/reel-1.mp4" poster="assets/img/poster-reel-1.jpg" muted loop playsinline preload="none"></video>
-        <button class="reel__sound" type="button" data-reel-sound aria-pressed="false" data-i18n-attr="aria-label:gallery.sound" aria-label="Activar o silenciar el sonido">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m17 9 4 6M21 9l-4 6"/></svg>
-        </button>
-        <figcaption class="reel__label"><span class="reel__title" data-i18n="gallery.reel1">Dentro del club</span></figcaption>
-      </figure>
-
-      <figure class="reel reveal" data-reel>
-        <video data-src="assets/video/reel-2.mp4" poster="assets/img/poster-reel-2.jpg" muted loop playsinline preload="none"></video>
-        <button class="reel__sound" type="button" data-reel-sound aria-pressed="false" data-i18n-attr="aria-label:gallery.sound" aria-label="Activar o silenciar el sonido">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m17 9 4 6M21 9l-4 6"/></svg>
-        </button>
-        <figcaption class="reel__label"><span class="reel__title" data-i18n="gallery.reel2">Noche de pista</span></figcaption>
-      </figure>
-
-      <div class="reel reel--cta reveal">
-        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--magenta-hot)"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
-        <h3 class="h4" data-i18n="gallery.cta.title">Cada semana, contenido nuevo</h3>
-        <p class="text-dim" style="font-size:.88rem" data-i18n="gallery.cta.text">Fotos, vídeos y los avances de cada fiesta están en nuestro Instagram.</p>
-        <a class="btn btn--primary btn--sm" data-link="instagram" href="https://www.instagram.com/levelandorra_oficial/" target="_blank" rel="noopener" data-i18n="gallery.cta.btn">Seguir en Instagram</a>
       </div>
     </div>
   </div>
@@ -508,14 +387,20 @@
       </article>
     </div>
 
-    <div class="cta-band reveal" style="margin-top:clamp(2.5rem,6vw,4.5rem)">
-      <div class="bg-hex" aria-hidden="true"></div>
-      <h2 class="h1"><span class="skew" data-i18n="cta.title">Que no te lo cuenten</span></h2>
-      <p class="lede" data-i18n="cta.lede">La próxima noche de la que todos van a hablar empieza en el momento en que compras tu entrada.</p>
-      <div class="btn-group" style="justify-content:center">
-        <a class="btn btn--primary" data-link="tickets" href="#" target="_blank" rel="noopener" data-i18n="cta.btn1">Comprar entrada</a>
-        <a class="btn btn--ghost" data-link="whatsapp" data-link-fallback="instagram" data-i18n-fallback="vip.cta2" href="#" target="_blank" rel="noopener" data-i18n="cta.btn2">Reservar mesa</a>
-      </div>
+  </div>
+</section>
+
+<!-- =============================================================== SPONSORS -->
+<section class="sponsors" aria-labelledby="sponsors-title">
+  <div class="container sponsors__inner">
+    <h2 class="eyebrow" id="sponsors-title">SPONSORS</h2>
+    <div class="sponsors__list">
+      <a href="https://www.instagram.com/tresdinoucomunicacio" target="_blank" rel="noopener noreferrer" aria-label="Tresdinou Comunicació">
+        <img src="assets/img/sponsor-tresdinou-comunicacio.png" alt="Tresdinou Comunicació" width="1145" height="284" loading="lazy" decoding="async">
+      </a>
+      <a href="https://www.instagram.com/sheath_grv/" target="_blank" rel="noopener noreferrer" aria-label="Sheath">
+        <img src="assets/img/sponsor-sheath.webp" alt="Sheath" width="480" height="193" loading="lazy" decoding="async">
+      </a>
     </div>
   </div>
 </section>
@@ -546,9 +431,7 @@
         <p class="footer__title" data-i18n="footer.col1">El club</p>
         <ul class="footer__list">
           <li><a href="#agenda" data-i18n="nav.agenda">Agenda</a></li>
-          <li><a href="#salas" data-i18n="nav.rooms">Salas</a></li>
           <li><a href="#vip" data-i18n="nav.vip">VIP</a></li>
-          <li><a href="#galeria" data-i18n="nav.gallery">Galería</a></li>
         </ul>
       </nav>
 
