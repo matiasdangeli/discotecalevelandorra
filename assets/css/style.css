@@ -1617,3 +1617,307 @@ ul, ol { list-style: none; padding: 0; }
 @media (max-width: 420px) {
   .weekend-grid { grid-template-columns: 1fr; }
 }
+
+/* ---------- 3D CYLINDER FLYER CAROUSEL ---------- */
+.flyer-carousel {
+  --carousel-card-w: 300px;
+  --carousel-card-h: 533px;
+  position: relative;
+  width: 100%;
+}
+
+.flyer-carousel__stage {
+  position: relative;
+  width: 100%;
+  height: clamp(610px, 78svh, 850px);
+  min-height: 560px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: clamp(12px, 2vw, 24px);
+  perspective: 1350px;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.flyer-carousel__stage:active { cursor: grabbing; }
+
+.flyer-carousel__stage::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 14% 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 31, 122, 0.11), transparent 66%);
+  filter: blur(34px);
+  pointer-events: none;
+}
+
+.flyer-carousel__viewport {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  perspective: 1350px;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.cylinder-card {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - (var(--carousel-card-h) / 2));
+  width: var(--carousel-card-w);
+  height: var(--carousel-card-h);
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  backface-visibility: visible;
+  pointer-events: none;
+}
+
+.cylinder-card.is-active { pointer-events: auto; }
+
+.cylinder-face,
+.cylinder-edge {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: clamp(12px, 1.5vw, 18px);
+  transform-style: preserve-3d;
+}
+
+.cylinder-edge {
+  transform: translateZ(var(--z));
+  overflow: hidden;
+  background: linear-gradient(135deg, #babac0, #505057 48%, #8a8a91);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+}
+
+.cylinder-face {
+  overflow: hidden;
+  appearance: none;
+  padding: 0;
+  color: #fff;
+  background: #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.cylinder-face--front {
+  transform: translateZ(var(--z));
+  cursor: zoom-in;
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.72),
+    0 0 35px rgba(255, 31, 122, 0.13),
+    inset 0 1px rgba(255, 255, 255, 0.16);
+}
+
+.cylinder-face--front img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  transition: filter 300ms ease, transform 600ms var(--ease);
+}
+
+.cylinder-card.is-active .cylinder-face--front:hover img {
+  filter: brightness(1.08);
+  transform: scale(1.018);
+}
+
+.cylinder-face--back {
+  transform: translateZ(var(--z)) rotateX(180deg);
+  background: #08080a;
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.72),
+    inset 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.cylinder-face--back::before {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.52)), var(--flyer);
+  background-position: center;
+  background-size: cover;
+  filter: blur(18px) saturate(0.9);
+  transform: scale(1.1);
+  opacity: 0.78;
+}
+
+.cylinder-face--back::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.07), transparent 38%, rgba(0, 0, 0, 0.32));
+  pointer-events: none;
+}
+
+.cylinder-back__stripe {
+  position: absolute;
+  z-index: 2;
+  top: 13%;
+  left: 0;
+  right: 0;
+  height: 18%;
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 1px rgba(255, 255, 255, 0.07);
+}
+
+.cylinder-back__logo {
+  position: absolute;
+  z-index: 3;
+  top: 37%;
+  left: 9%;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 4vw, 2rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.07em;
+  text-transform: uppercase;
+}
+
+.cylinder-back__logo::after {
+  content: "ANDORRA";
+  display: block;
+  margin-top: 0.45rem;
+  font-family: var(--font-body);
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.cylinder-back__meta {
+  position: absolute;
+  z-index: 3;
+  left: 9%;
+  right: 9%;
+  bottom: 7%;
+  display: grid;
+  gap: 0.25rem;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: clamp(0.58rem, 1.5vw, 0.76rem);
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+  text-shadow: 0 1px 8px #000;
+}
+
+.cylinder-back__meta strong {
+  overflow: hidden;
+  font-size: 1.08em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cylinder-back__meta span { color: rgba(255, 255, 255, 0.7); }
+
+.carousel-info {
+  position: relative;
+  width: min(100%, 720px);
+  min-height: 230px;
+  margin: clamp(1.25rem, 3vw, 2rem) auto 0;
+}
+
+.carousel-info__panel {
+  display: none;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.9rem;
+  text-align: center;
+}
+
+.carousel-info__panel.is-active {
+  display: flex;
+  animation: carousel-info-in 420ms var(--ease-out) both;
+}
+
+.carousel-info__eyebrow {
+  color: var(--magenta-hot);
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.carousel-info__panel[data-room="honey"] .carousel-info__eyebrow { color: var(--honey); }
+
+.carousel-info__panel h3 {
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 5vw, 3.25rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+
+.carousel-info__panel p {
+  max-width: 58ch;
+  color: var(--fg-dim);
+  font-size: 0.95rem;
+}
+
+.carousel-info__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: 0.25rem;
+}
+
+.carousel-info__hint {
+  margin-top: 0.1rem;
+  color: var(--fg-mute);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@keyframes carousel-info-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .flyer-carousel__stage {
+    height: min(70svh, 650px);
+    min-height: 520px;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
+  .flyer-carousel {
+    width: calc(100% + (2 * var(--gutter)));
+    margin-left: calc(-1 * var(--gutter));
+  }
+
+  .carousel-info {
+    width: calc(100% - (2 * var(--gutter)));
+    min-height: 260px;
+  }
+
+  .carousel-info__actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .carousel-info__actions .btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cylinder-card { will-change: auto; }
+
+  .carousel-info__panel.is-active { animation: none; }
+}
+
