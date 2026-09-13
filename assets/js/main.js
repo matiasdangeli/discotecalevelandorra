@@ -467,41 +467,183 @@
     var weekendTitle = dateLabel(first.date);
     if (last.date !== first.date) weekendTitle += " — " + dateLabel(last.date);
 
-    var cards = list.map(function (ev) {
-      var flyer = isSet(ev.flyer)
-        ? '<button class="event-card__flyer" type="button" data-flyer-open="' + esc(ev.flyer) + '" aria-label="' + esc(agendaCopy("flyer")) + esc(ev.name) + '"><img src="' + esc(ev.flyer) + '" alt="Flyer de ' + esc(ev.name) + '" loading="lazy"></button>'
-        : '<div class="event-card__placeholder"><span>' + esc(ev.room || "Level") + '</span></div>';
+    var cards = list.map(function (ev, i) {
+      var image = isSet(ev.flyer) ? ev.flyer : "assets/img/poster-hero.jpg";
+      var layers = [-1.47, -0.73, 0, 0.73, 1.47].map(function (z, layer) {
+        if (layer === 0) {
+          return '<button class="cylinder-face cylinder-face--back" type="button" data-flyer-open="' + esc(image) + '" style="--z:' + z + 'px;--flyer:url(&quot;' + esc(image) + '&quot;)" aria-label="' + esc(agendaCopy("flyer")) + esc(ev.name) + '">' +
+            '<span class="cylinder-back__stripe"></span><span class="cylinder-back__logo">LEVEL</span><span class="cylinder-back__meta">' + esc(ev.room || "Level") + '<br>' + esc(ev.name) + '</span></button>';
+        }
+        if (layer === 4) {
+          return '<button class="cylinder-face cylinder-face--front" type="button" data-flyer-open="' + esc(image) + '" style="--z:' + z + 'px" aria-label="' + esc(agendaCopy("flyer")) + esc(ev.name) + '">' +
+            '<img src="' + esc(image) + '" alt="Flyer de ' + esc(ev.name) + '" loading="' + (i < 2 ? "eager" : "lazy") + '"></button>';
+        }
+        return '<span class="cylinder-edge" style="--z:' + z + 'px"></span>';
+      }).join("");
 
+      return '<div class="cylinder-card" data-cylinder-card data-event-index="' + i + '" aria-hidden="' + (i ? "true" : "false") + '">' + layers + '</div>';
+    }).join("");
+
+    var panels = list.map(function (ev, i) {
       var lineup = Array.isArray(ev.lineup) && ev.lineup.length
-        ? '<p class="event-card__lineup">' + ev.lineup.map(esc).join(" · ") + "</p>"
-        : "";
-
-      var tags = [];
-      if (ev.genre) tags.push(ev.genre);
-      if (ev.age) tags.push(ev.age);
-      if (ev.entryText) tags.push(ev.entryText);
-
+        ? '<p class="carousel-info__lineup">' + ev.lineup.map(esc).join(" · ") + '</p>' : "";
       var ticketUrl = isSet(ev.ticketsUrl) ? ev.ticketsUrl : (isSet(CFG.ticketsUrl) ? CFG.ticketsUrl : "");
       var wa = eventWhatsapp(ev);
       var buttons = "";
       if (ticketUrl) buttons += '<a class="btn btn--primary btn--sm" href="' + esc(ticketUrl) + '" target="_blank" rel="noopener">' + esc(agendaCopy("tickets")) + '</a>';
       if (wa) buttons += '<a class="btn btn--ghost btn--sm" href="' + esc(wa) + '" target="_blank" rel="noopener">' + esc(agendaCopy("vip")) + '</a>';
-
-      return '<article class="event-card reveal">' + flyer +
-        '<div class="event-card__content">' +
-          '<div class="event-card__top"><span class="event-card__room">' + esc(ev.room || "Level") + '</span><span class="event-card__date">' + esc(dateLabel(ev.date)) + '</span></div>' +
-          '<h3 class="event-card__name">' + esc(ev.name) + '</h3>' +
-          '<p class="event-card__hours">' + icon("clock") + esc(ev.startTime || "00:00") + " — " + esc(ev.endTime || "05:00") + '</p>' +
-          lineup +
-          (tags.length ? '<div class="event-card__tags">' + tags.map(function (x) { return '<span class="tag">' + esc(x) + '</span>'; }).join("") + '</div>' : "") +
-          (buttons ? '<div class="event-card__actions">' + buttons + '</div>' : "") +
-        '</div></article>';
+      return '<div class="carousel-info__panel' + (i === 0 ? ' is-active' : '') + '" data-carousel-panel="' + i + '">' +
+        '<span class="event-card__room">' + esc(ev.room || "Level") + '</span>' +
+        '<h3>' + esc(ev.name) + '</h3>' +
+        '<p class="event-card__hours">' + icon("clock") + esc(dateLabel(ev.date)) + ' · ' + esc(ev.startTime || "00:00") + ' — ' + esc(ev.endTime || "05:00") + '</p>' +
+        lineup + (ev.entryText ? '<p class="carousel-info__entry">' + esc(ev.entryText) + '</p>' : '') +
+        (buttons ? '<div class="event-card__actions">' + buttons + '</div>' : '') + '</div>';
     }).join("");
 
-    wrap.innerHTML = '<div class="weekend-head"><span class="eyebrow">' + esc(agendaCopy("eyebrow")) + '</span><h3>' + esc(weekendTitle) + '</h3><p>' + esc(agendaCopy("venue")) + '</p></div><div class="weekend-grid">' + cards + '</div>';
-    observeReveals();
+    wrap.innerHTML = '<div class="weekend-head"><span class="eyebrow">' + esc(agendaCopy("eyebrow")) + '</span><h3>' + esc(weekendTitle) + '</h3><p>' + esc(agendaCopy("venue")) + '</p></div>' +
+      '<div class="flyer-carousel" data-flyer-carousel><div class="flyer-carousel__stage"><div class="flyer-carousel__viewport">' + cards + '</div></div>' +
+      '<div class="carousel-info">' + panels + '</div></div>';
+
+    initFlyerCarousel();
     initFlyerViewer();
     injectEventSchema(list);
+  }
+
+  var flyerCarouselCleanup = null;
+
+  function initFlyerCarousel() {
+    if (flyerCarouselCleanup) flyerCarouselCleanup();
+    var root = $("[data-flyer-carousel]");
+    if (!root) return;
+    var stage = $(".flyer-carousel__stage", root);
+    var cards = $$("[data-cylinder-card]", root);
+    var panels = $$("[data-carousel-panel]", root);
+    if (!stage || !cards.length) return;
+
+    var progress = 0;
+    var frame = 0;
+    var lastActive = -1;
+    var pointer = { x: 0, y: 0, targetX: 0, targetY: 0 };
+    var paused = false;
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var metrics = { cardW: 300, cardH: 533 };
+
+    function measure() {
+      var w = stage.clientWidth;
+      var h = stage.clientHeight;
+      var cardW = Math.min(330, Math.max(190, w * (w < 640 ? 0.68 : 0.32)));
+      var cardH = cardW * 16 / 9;
+      if (cardH > h * 0.72) {
+        cardH = h * 0.72;
+        cardW = cardH * 9 / 16;
+      }
+      metrics.cardW = Math.round(cardW);
+      metrics.cardH = Math.round(cardH);
+      root.style.setProperty("--carousel-card-w", metrics.cardW + "px");
+      root.style.setProperty("--carousel-card-h", metrics.cardH + "px");
+    }
+
+    function onMove(e) {
+      var rect = stage.getBoundingClientRect();
+      pointer.targetX = Math.max(-1, Math.min(1, ((e.clientX - rect.left) / rect.width - .5) * 2));
+      pointer.targetY = Math.max(-1, Math.min(1, ((e.clientY - rect.top) / rect.height - .5) * 2));
+    }
+    function onLeave() { pointer.targetX = 0; pointer.targetY = 0; }
+    function setActive(index) {
+      if (index === lastActive) return;
+      lastActive = index;
+      cards.forEach(function (card, i) {
+        var active = i === index;
+        card.classList.toggle("is-active", active);
+        card.setAttribute("aria-hidden", active ? "false" : "true");
+      });
+      panels.forEach(function (panel, i) { panel.classList.toggle("is-active", i === index); });
+    }
+
+    function render() {
+      if (!paused && !reduced) progress += 0.0016;
+      pointer.x += (pointer.targetX - pointer.x) * 0.08;
+      pointer.y += (pointer.targetY - pointer.y) * 0.08;
+
+      var count = cards.length;
+      var rounded = Math.round(progress);
+      var diff = progress - rounded;
+      var easedDiff = Math.sign(diff) * Math.pow(Math.abs(diff) * 2, 4.2) / 2;
+      var virtualIndex = rounded + easedDiff;
+      var activeIndex = ((rounded % count) + count) % count;
+      setActive(activeIndex);
+
+      var h = stage.clientHeight;
+      var cardH = metrics.cardH;
+      var gap = Math.max(24, cardH * .065);
+      var D = 1350;
+
+      cards.forEach(function (card, i) {
+        var offset = i - virtualIndex;
+        var half = count / 2;
+        while (offset > half) offset -= count;
+        while (offset < -half) offset += count;
+
+        var absOffset = Math.abs(offset);
+        var sign = Math.sign(offset);
+        if (absOffset > 3) { card.style.visibility = "hidden"; return; }
+        card.style.visibility = "visible";
+
+        var y = 0, z = 0, rot = 0;
+        if (absOffset <= 1) {
+          var t1 = absOffset;
+          var e1 = t1 * t1 * (3 - 2 * t1);
+          y = -sign * e1 * (cardH + gap);
+          z = 400 + e1 * (220 - 400);
+          rot = e1 * 132;
+        } else if (absOffset <= 2) {
+          var t2 = absOffset - 1;
+          var e2 = t2 * t2 * (3 - 2 * t2);
+          var zEnd = -60;
+          var scaleEnd = D / (D - zEnd);
+          var yEnd = (h / 2 + 55) / scaleEnd - cardH / 2;
+          y = -sign * ((cardH + gap) + e2 * (yEnd - (cardH + gap)));
+          z = 220 + e2 * (zEnd - 220);
+          rot = 132 + e2 * (175 - 132);
+        } else {
+          var t3 = Math.min(absOffset - 2, 1);
+          var e3 = t3 * t3 * (3 - 2 * t3);
+          var scale2 = D / (D + 60);
+          var y2 = (h / 2 + 55) / scale2 - cardH / 2;
+          var scale3 = D / (D + 250);
+          var y3 = (h / 2 + 100) / scale3 + cardH / 2;
+          y = -sign * (y2 + e3 * (y3 - y2));
+          z = -60 + e3 * (-250 + 60);
+          rot = 175 + e3 * 20;
+        }
+
+        var centerFactor = Math.max(0, 1 - absOffset);
+        var tiltX = -pointer.y * 9 * centerFactor;
+        var tiltY = pointer.x * 12 * centerFactor;
+        card.style.zIndex = String(Math.round(z + 500));
+        card.style.opacity = String(Math.max(.18, 1 - Math.max(0, absOffset - 1.25) * .5));
+        card.style.transform = "translate3d(-50%," + y.toFixed(2) + "px," + z.toFixed(2) + "px) rotateX(" + (-sign * rot + tiltX).toFixed(2) + "deg) rotateY(" + tiltY.toFixed(2) + "deg) rotateZ(-2deg)";
+      });
+      frame = requestAnimationFrame(render);
+    }
+
+    function onVisibility() { paused = document.hidden; }
+    measure();
+    stage.addEventListener("mousemove", onMove, { passive: true });
+    stage.addEventListener("mouseleave", onLeave);
+    stage.addEventListener("mouseenter", function () { paused = false; });
+    window.addEventListener("resize", measure);
+    document.addEventListener("visibilitychange", onVisibility);
+    frame = requestAnimationFrame(render);
+
+    flyerCarouselCleanup = function () {
+      cancelAnimationFrame(frame);
+      stage.removeEventListener("mousemove", onMove);
+      stage.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("resize", measure);
+      document.removeEventListener("visibilitychange", onVisibility);
+      flyerCarouselCleanup = null;
+    };
   }
 
   function initFlyerViewer() {
