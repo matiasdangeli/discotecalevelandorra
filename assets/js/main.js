@@ -359,6 +359,7 @@
   };
 
   var eventsCache = null;
+  var agendaFrame = 0;
   var AGENDA_COPY = {
     es: { eyebrow:"Este fin de semana", venue:"Sala Level y Sala Honey · Andorra la Vella", tickets:"Entradas", vip:"VIP / WhatsApp", flyer:"Ver flyer de " },
     ca: { eyebrow:"Aquest cap de setmana", venue:"Sala Level i Sala Honey · Andorra la Vella", tickets:"Entrades", vip:"VIP / WhatsApp", flyer:"Veure el flyer de " },
@@ -453,8 +454,6 @@
     if (empty) empty.hidden = true;
     wrap.hidden = false;
 
-    var first = list[0];
-    var last = list[list.length - 1];
     var dateFmt = new Intl.DateTimeFormat(state.lang === "en" ? "en-GB" : state.lang, {
       timeZone: CFG.timezone || "Europe/Andorra",
       weekday: "long", day: "numeric", month: "long"
@@ -464,44 +463,70 @@
       return dateFmt.format(new Date(iso + "T12:00:00Z"));
     }
 
-    var weekendTitle = dateLabel(first.date);
-    if (last.date !== first.date) weekendTitle += " — " + dateLabel(last.date);
-
     var cards = list.map(function (ev) {
       var flyer = isSet(ev.flyer)
-        ? '<button class="event-card__flyer" type="button" data-flyer-open="' + esc(ev.flyer) + '" aria-label="' + esc(agendaCopy("flyer")) + esc(ev.name) + '"><img src="' + esc(ev.flyer) + '" alt="Flyer de ' + esc(ev.name) + '" loading="lazy"></button>'
-        : '<div class="event-card__placeholder"><span>' + esc(ev.room || "Level") + '</span></div>';
+        ? '<button class="flyer-slide__media" type="button" data-flyer-open="' + esc(ev.flyer) + '" aria-label="' + esc(agendaCopy("flyer")) + esc(ev.name) + '"><img src="' + esc(ev.flyer) + '" alt="Flyer de ' + esc(ev.name) + '" loading="lazy"></button>'
+        : '<div class="flyer-slide__placeholder"><span>' + esc(ev.room || "Level") + '</span></div>';
 
-      var lineup = Array.isArray(ev.lineup) && ev.lineup.length
-        ? '<p class="event-card__lineup">' + ev.lineup.map(esc).join(" · ") + "</p>"
-        : "";
-
-      var tags = [];
-      if (ev.genre) tags.push(ev.genre);
-      if (ev.age) tags.push(ev.age);
-      if (ev.entryText) tags.push(ev.entryText);
-
-      var ticketUrl = isSet(ev.ticketsUrl) ? ev.ticketsUrl : (isSet(CFG.ticketsUrl) ? CFG.ticketsUrl : "");
-      var wa = eventWhatsapp(ev);
-      var buttons = "";
-      if (ticketUrl) buttons += '<a class="btn btn--primary btn--sm" href="' + esc(ticketUrl) + '" target="_blank" rel="noopener">' + esc(agendaCopy("tickets")) + '</a>';
-      if (wa) buttons += '<a class="btn btn--ghost btn--sm" href="' + esc(wa) + '" target="_blank" rel="noopener">' + esc(agendaCopy("vip")) + '</a>';
-
-      return '<article class="event-card reveal">' + flyer +
-        '<div class="event-card__content">' +
-          '<div class="event-card__top"><span class="event-card__room">' + esc(ev.room || "Level") + '</span><span class="event-card__date">' + esc(dateLabel(ev.date)) + '</span></div>' +
-          '<h3 class="event-card__name">' + esc(ev.name) + '</h3>' +
-          '<p class="event-card__hours">' + icon("clock") + esc(ev.startTime || "00:00") + " — " + esc(ev.endTime || "05:00") + '</p>' +
-          lineup +
-          (tags.length ? '<div class="event-card__tags">' + tags.map(function (x) { return '<span class="tag">' + esc(x) + '</span>'; }).join("") + '</div>' : "") +
-          (buttons ? '<div class="event-card__actions">' + buttons + '</div>' : "") +
+      return '<article class="flyer-slide">' + flyer +
+        '<div class="flyer-slide__caption">' +
+          '<span>' + esc(ev.room || "Level") + ' · ' + esc(dateLabel(ev.date)) + '</span>' +
+          '<h3>' + esc(ev.name) + '</h3>' +
         '</div></article>';
     }).join("");
 
-    wrap.innerHTML = '<div class="weekend-head"><span class="eyebrow">' + esc(agendaCopy("eyebrow")) + '</span><h3>' + esc(weekendTitle) + '</h3><p>' + esc(agendaCopy("venue")) + '</p></div><div class="weekend-grid">' + cards + '</div>';
+    wrap.innerHTML = '<div class="agenda-carousel" data-agenda-carousel><div class="agenda-track"><div class="agenda-group">' + cards + '</div><div class="agenda-group" aria-hidden="true">' + cards + '</div></div></div>';
+    var duplicate = $(".agenda-group[aria-hidden='true']", wrap);
+    if (duplicate) $$('button, a', duplicate).forEach(function (el) { el.tabIndex = -1; });
     observeReveals();
     initFlyerViewer();
+    initAgendaCarousel();
     injectEventSchema(list);
+  }
+
+  function initAgendaCarousel() {
+    var scroller = $("[data-agenda-carousel]");
+    if (!scroller) return;
+    if (agendaFrame) cancelAnimationFrame(agendaFrame);
+
+    var paused = false;
+    var resumeTimer = 0;
+    var last = 0;
+    var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function setPaused(value) {
+      paused = value;
+      window.clearTimeout(resumeTimer);
+    }
+
+    function resumeSoon() {
+      window.clearTimeout(resumeTimer);
+      resumeTimer = window.setTimeout(function () { paused = false; }, 1400);
+    }
+
+    scroller.addEventListener("pointerdown", function () { setPaused(true); }, { passive: true });
+    scroller.addEventListener("pointerup", resumeSoon, { passive: true });
+    scroller.addEventListener("pointercancel", resumeSoon, { passive: true });
+    scroller.addEventListener("mouseenter", function () { setPaused(true); });
+    scroller.addEventListener("mouseleave", resumeSoon);
+    scroller.addEventListener("focusin", function () { setPaused(true); });
+    scroller.addEventListener("focusout", resumeSoon);
+
+    if (reduced) return;
+
+    function tick(now) {
+      if (!last) last = now;
+      var delta = Math.min(now - last, 34);
+      last = now;
+      if (!paused) {
+        var half = scroller.scrollWidth / 2;
+        scroller.scrollLeft += delta * 0.028;
+        if (scroller.scrollLeft >= half) scroller.scrollLeft -= half;
+      }
+      agendaFrame = requestAnimationFrame(tick);
+    }
+
+    agendaFrame = requestAnimationFrame(tick);
   }
 
   function initFlyerViewer() {

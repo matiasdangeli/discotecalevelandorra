@@ -77,6 +77,7 @@ window.LEVEL_I18N = {
     "program.sun.t3": "Comunidad",
 
     "agenda.eyebrow": "Agenda",
+    "agenda.hint": "Deslizá →",
     "agenda.title": "Próximas fechas",
     "agenda.lede": "Fiestas especiales, invitados internacionales y noches temáticas. Cuando se agotan, se agotan.",
     "agenda.empty.title": "Aún no hay fechas especiales publicadas",
@@ -286,6 +287,7 @@ window.LEVEL_I18N = {
     "program.sun.t3": "Comunitat",
 
     "agenda.eyebrow": "Agenda",
+    "agenda.hint": "Llisca →",
     "agenda.title": "Pròximes dates",
     "agenda.lede": "Festes especials, convidats internacionals i nits temàtiques. Quan s'esgoten, s'esgoten.",
     "agenda.empty.title": "Encara no hi ha dates especials publicades",
@@ -495,6 +497,7 @@ window.LEVEL_I18N = {
     "program.sun.t3": "Community",
 
     "agenda.eyebrow": "Line-up",
+    "agenda.hint": "Swipe →",
     "agenda.title": "Upcoming dates",
     "agenda.lede": "Special parties, international guests and themed nights. Once they sell out, they're gone.",
     "agenda.empty.title": "No special dates published yet",
@@ -704,6 +707,7 @@ window.LEVEL_I18N = {
     "program.sun.t3": "Communauté",
 
     "agenda.eyebrow": "Agenda",
+    "agenda.hint": "Faites glisser →",
     "agenda.title": "Prochaines dates",
     "agenda.lede": "Soirées spéciales, invités internationaux et nuits à thème. Une fois complet, c'est complet.",
     "agenda.empty.title": "Aucune date spéciale publiée pour l'instant",

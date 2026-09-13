@@ -85,16 +85,16 @@
 <a class="skip-link" href="#main" data-i18n="nav.skip">Saltar al contenido</a>
 
 <!-- ================================================================ HEADER -->
-<header class="header" data-header>
+<header class="header" id="top" data-header>
   <div class="container header__inner">
     <a class="brand" href="#top" aria-label="Level Andorra — inicio">
       <img src="assets/img/level-logo.png" alt="Level Andorra" width="1080" height="309">
     </a>
 
     <nav class="nav" aria-label="Navegación principal">
+      <a class="nav__link" href="#info" data-spy="info" data-i18n="nav.info">Info</a>
       <a class="nav__link" href="#agenda" data-spy="agenda" data-i18n="nav.agenda">Agenda</a>
       <a class="nav__link" href="#vip" data-spy="vip" data-i18n="nav.vip">VIP</a>
-      <a class="nav__link" href="#info" data-spy="info" data-i18n="nav.info">Info</a>
       <a class="nav__link" href="#faq" data-spy="faq" data-i18n="nav.faq">FAQ</a>
       <a class="nav__link" href="#contacto" data-spy="contacto" data-i18n="nav.contact">Contacto</a>
     </nav>
@@ -127,9 +127,9 @@
 <div class="mobile-nav" id="mobile-nav" data-mobile-nav>
   <div class="container">
     <ul class="mobile-nav__list">
+      <li><a class="mobile-nav__link" href="#info" data-i18n="nav.info">Info</a></li>
       <li><a class="mobile-nav__link" href="#agenda" data-i18n="nav.agenda">Agenda</a></li>
       <li><a class="mobile-nav__link" href="#vip" data-i18n="nav.vip">VIP</a></li>
-      <li><a class="mobile-nav__link" href="#info" data-i18n="nav.info">Info</a></li>
       <li><a class="mobile-nav__link" href="#faq" data-i18n="nav.faq">FAQ</a></li>
       <li><a class="mobile-nav__link" href="#contacto" data-i18n="nav.contact">Contacto</a></li>
     </ul>
@@ -146,34 +146,12 @@
 
 <main id="main">
 
-<!-- ========================================================== PRESENTACIÓN -->
-<section class="intro" id="top">
-  <div class="bg-hex" aria-hidden="true"></div>
-  <div class="container intro__inner reveal">
-    <h1 class="intro__heading"><img class="intro__logo" src="assets/img/level-logo.png" alt="Level Andorra" width="1080" height="309" fetchpriority="high"></h1>
-    <p class="intro__place">ANDORRA LA VELLA</p>
-    <p class="lede" data-i18n="hero.claim">Que no te lo cuenten. Ven a vivir la noche de la que todos hablan al día siguiente.</p>
-    <div class="btn-group">
-      <a class="btn btn--primary" data-link="tickets" href="#agenda" target="_blank" rel="noopener" data-i18n="hero.cta1">Comprar entrada</a>
-      <a class="btn btn--ghost" href="#vip" data-i18n="hero.cta2">Reservar mesa VIP</a>
-    </div>
-  </div>
-</section>
-
 <!-- ============================================== AGENDA DEL FINDE -->
-<section class="section" id="agenda">
-  <div class="bg-glow" style="width:520px;height:520px;background:rgba(255,31,122,.16);top:-8%;left:-12%" aria-hidden="true"></div>
+<section class="section section--flyers" id="agenda">
   <div class="container">
-    <div class="section-head section-head--split reveal">
-      <div>
-        <span class="eyebrow" data-i18n="agenda.eyebrow">Agenda</span>
-        <h2 class="h2" data-i18n="agenda.title">Próximas fechas</h2>
-        <p class="lede" data-i18n="agenda.lede">Dos salas, distintas formas de vivir la noche. Elegí tu plan y reservá en segundos.</p>
-      </div>
-      <div class="btn-group">
-        <a class="btn btn--primary btn--sm" data-link="tickets" href="#" target="_blank" rel="noopener" data-i18n="nav.tickets">Comprar entrada</a>
-        <a class="btn btn--ghost btn--sm" data-link="whatsapp" data-wa-topic="vip" href="#" target="_blank" rel="noopener" data-i18n="vip.cta1">Reservar VIP</a>
-      </div>
+    <div class="flyers-head reveal">
+      <h2 class="eyebrow" data-i18n="agenda.eyebrow">Agenda</h2>
+      <p class="flyers-head__hint" data-i18n="agenda.hint" aria-hidden="true">DESLIZÁ →</p>
     </div>
 
     <div class="agenda" data-agenda hidden></div>
