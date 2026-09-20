@@ -6,6 +6,9 @@
 
 window.LEVEL_I18N = {
   es: {
+    "intro.title": "Vive una nueva experiencia.",
+    "agenda.recent": "Ediciones recientes",
+    "agenda.pastNote": "Eventos finalizados. Próximas fechas en breve.",
     label: "Español",
     htmlLang: "es",
     locale: "es-ES",
@@ -216,6 +219,9 @@ window.LEVEL_I18N = {
   },
 
   ca: {
+    "intro.title": "Viu una nova experiència.",
+    "agenda.recent": "Edicions recents",
+    "agenda.pastNote": "Esdeveniments finalitzats. Properes dates aviat.",
     label: "Català",
     htmlLang: "ca",
     locale: "ca-AD",
@@ -426,6 +432,9 @@ window.LEVEL_I18N = {
   },
 
   en: {
+    "intro.title": "Live a new experience.",
+    "agenda.recent": "Recent editions",
+    "agenda.pastNote": "Past events. New dates coming soon.",
     label: "English",
     htmlLang: "en",
     locale: "en-GB",
@@ -636,6 +645,9 @@ window.LEVEL_I18N = {
   },
 
   fr: {
+    "intro.title": "Vivez une nouvelle expérience.",
+    "agenda.recent": "Éditions récentes",
+    "agenda.pastNote": "Événements terminés. Prochaines dates à venir.",
     label: "Français",
     htmlLang: "fr",
     locale: "fr-FR",

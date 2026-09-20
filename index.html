@@ -145,6 +145,11 @@
 </div>
 
 <main id="main">
+<section class="intro container" aria-labelledby="intro-title">
+  <div><p class="eyebrow">LEVEL ANDORRA · KM 0</p>
+  <h1 id="intro-title" data-i18n="intro.title">Vive una<br>nueva experiencia.</h1></div>
+  <div class="intro__actions"><a class="btn btn--primary" data-link="tickets" href="#agenda" target="_blank" rel="noopener" data-i18n="agenda.tickets">Entradas</a><a class="btn btn--ghost" href="#vip" data-i18n="nav.vip">VIP</a></div>
+</section>
 
 <!-- ============================================== AGENDA DEL FINDE -->
 <section class="section section--flyers" id="agenda">
@@ -189,32 +194,7 @@
           <p class="text-mute" style="font-size:.82rem;margin-top:.35rem" data-i18n="vip.note">Aforo por mesa y precio según la noche y el evento. Te lo confirmamos al momento de la reserva.</p>
         </div>
 
-        <ul class="perks">
-          <li class="perk">
-            <span class="perk__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-8 11h6l-1 9 8-11h-6z"/></svg></span>
-            <div><p class="perk__title" data-i18n="vip.p1.title">Acceso prioritario</p><p class="perk__text" data-i18n="vip.p1.text">Entrada directa para ti y tus invitados, sin hacer cola.</p></div>
-          </li>
-          <li class="perk">
-            <span class="perk__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3h4v3.5l2.4 3.6a3 3 0 0 1 .6 1.8V19a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-7.1a3 3 0 0 1 .6-1.8L10 6.5z"/></svg></span>
-            <div><p class="perk__title" data-i18n="vip.p2.title">Servicio de botella</p><p class="perk__text" data-i18n="vip.p2.text">Carta de destilados premium con mixers y hielo siempre listos.</p></div>
-          </li>
-          <li class="perk">
-            <span class="perk__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span>
-            <div><p class="perk__title" data-i18n="vip.p3.title">Camarero dedicado</p><p class="perk__text" data-i18n="vip.p3.text">Alguien pendiente de tu mesa durante toda la noche.</p></div>
-          </li>
-          <li class="perk">
-            <span class="perk__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
-            <div><p class="perk__title" data-i18n="vip.p4.title">Ubicación privilegiada</p><p class="perk__text" data-i18n="vip.p4.text">Vista directa a la pista y a la cabina del DJ.</p></div>
-          </li>
-          <li class="perk">
-            <span class="perk__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8S9.5 3.5 7.5 5.2 9 8 12 8s5.6-1.1 4.5-2.8S12 8 12 8Z"/></svg></span>
-            <div><p class="perk__title" data-i18n="vip.p5.title">Grupos y cumpleaños</p><p class="perk__text" data-i18n="vip.p5.text">Montajes especiales, cartel personalizado y sorpresas.</p></div>
-          </li>
-          <li class="perk">
-            <span class="perk__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.2 1.9"/></svg></span>
-            <div><p class="perk__title" data-i18n="vip.p6.title">Reserva en un minuto</p><p class="perk__text" data-i18n="vip.p6.text">Escríbenos por WhatsApp y lo cerramos al momento.</p></div>
-          </li>
-        </ul>
+
       </div>
     </div>
   </div>
@@ -259,8 +239,8 @@
           </div>
         </div>
 
-        <div class="stack stack-md">
-          <h3 class="h4" data-i18n="info.rules.title">Antes de venir</h3>
+        <details class="info-details">
+          <summary data-i18n="info.rules.title">Antes de venir</summary>
           <ul class="rules">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L19 7"/></svg><span data-i18n="info.rules.r1">Acceso exclusivo para mayores de 18 años. Se pedirá documento de identidad o pasaporte en la puerta.</span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L19 7"/></svg><span data-i18n="info.rules.r2">La dirección se reserva el derecho de admisión. Se aplica código de vestimenta.</span></li>
@@ -269,7 +249,7 @@
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L19 7"/></svg><span data-i18n="info.rules.r5">Prohibido fumar en el interior del local.</span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L19 7"/></svg><span data-i18n="info.rules.r6">Si no te encuentras bien o algo te incomoda, avisa a cualquier persona del equipo.</span></li>
           </ul>
-        </div>
+        </details>
       </div>
 
       <div class="map-frame reveal" data-map>
@@ -289,12 +269,8 @@
 
 <!-- =================================================================== FAQ -->
 <section class="section" id="faq">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow" data-i18n="faq.eyebrow">Preguntas frecuentes</span>
-      <h2 class="h2" data-i18n="faq.title">Todo lo que sueles preguntarnos</h2>
-    </div>
-
+  <details class="container faq-disclosure">
+    <summary data-i18n="faq.eyebrow">Preguntas frecuentes</summary>
     <div class="faq reveal">
       <div class="faq__item">
         <h3><button class="faq__q" type="button" data-faq-q aria-expanded="false" aria-controls="faq-1"><span data-i18n="faq.q1">¿Cuánto cuesta la entrada?</span><span class="faq__icon" aria-hidden="true"></span></button></h3>
@@ -329,7 +305,7 @@
         <div class="faq__a" id="faq-8"><div><p data-i18n="faq.a8">Sí, aceptamos tarjeta y efectivo tanto en barra como en los reservados.</p></div></div>
       </div>
     </div>
-  </div>
+  </details>
 </section>
 
 <!-- ============================================================== CONTACTO -->
@@ -373,12 +349,12 @@
   <div class="container sponsors__inner">
     <h2 class="eyebrow" id="sponsors-title">SPONSORS</h2>
     <div class="sponsors__list">
-      <a href="https://www.instagram.com/tresdinoucomunicacio" target="_blank" rel="noopener noreferrer" aria-label="Tresdinou Comunicació">
-        <img src="assets/img/sponsor-tresdinou-comunicacio.png" alt="Tresdinou Comunicació" width="1145" height="284" loading="lazy" decoding="async">
-      </a>
-      <a href="https://www.instagram.com/sheath_grv/" target="_blank" rel="noopener noreferrer" aria-label="Sheath">
-        <img src="assets/img/sponsor-sheath.webp" alt="Sheath" width="480" height="193" loading="lazy" decoding="async">
-      </a>
+      <span class="sponsor-mark" role="img" aria-label="Brugal" style="--logo-x:70;--logo-w:160"><img src="assets/img/events/level-domingo-13.webp" alt="" loading="lazy" aria-hidden="true"></span>
+      <span class="sponsor-mark" role="img" aria-label="Patrón" style="--logo-x:240;--logo-w:116"><img src="assets/img/events/level-domingo-13.webp" alt="" loading="lazy" aria-hidden="true"></span>
+      <span class="sponsor-mark" role="img" aria-label="Moët & Chandon" style="--logo-x:365;--logo-w:185"><img src="assets/img/events/level-domingo-13.webp" alt="" loading="lazy" aria-hidden="true"></span>
+      <span class="sponsor-mark" role="img" aria-label="Dom Pérignon" style="--logo-x:558;--logo-w:192"><img src="assets/img/events/level-domingo-13.webp" alt="" loading="lazy" aria-hidden="true"></span>
+      <span class="sponsor-mark" role="img" aria-label="Grey Goose" style="--logo-x:761;--logo-w:107"><img src="assets/img/events/level-domingo-13.webp" alt="" loading="lazy" aria-hidden="true"></span>
+      <span class="sponsor-mark" role="img" aria-label="Belvedere" style="--logo-x:883;--logo-w:130"><img src="assets/img/events/level-domingo-13.webp" alt="" loading="lazy" aria-hidden="true"></span>
     </div>
   </div>
 </section>

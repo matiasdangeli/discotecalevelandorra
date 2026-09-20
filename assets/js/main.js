@@ -359,7 +359,6 @@
   };
 
   var eventsCache = null;
-  var agendaFrame = 0;
   var AGENDA_COPY = {
     es: { eyebrow:"Este fin de semana", venue:"Sala Level y Sala Honey · Andorra la Vella", tickets:"Entradas", vip:"VIP / WhatsApp", flyer:"Ver flyer de " },
     ca: { eyebrow:"Aquest cap de setmana", venue:"Sala Level i Sala Honey · Andorra la Vella", tickets:"Entrades", vip:"VIP / WhatsApp", flyer:"Veure el flyer de " },
@@ -442,6 +441,14 @@
     var wrap = $("[data-agenda]");
     if (!wrap || eventsCache === null) return;
     var list = activeWeekend(eventsCache);
+    var upcoming = list.length > 0;
+    if (!upcoming) {
+      var past = eventsCache.filter(function (ev) { return ev && ev._activo !== false && ev.weekend && ev.date && ev.name; });
+      var latest = past.map(function (ev) { return ev.weekend; }).sort().pop();
+      list = past.filter(function (ev) { return ev.weekend === latest; }).sort(function (a, b) { return a.date.localeCompare(b.date); });
+    }
+    var heading = $("[data-i18n='agenda.eyebrow']");
+    if (heading) heading.textContent = t(upcoming ? "agenda.eyebrow" : "agenda.recent");
     var empty = $("[data-agenda-empty]");
 
     if (!list.length) {
@@ -475,58 +482,10 @@
         '</div></article>';
     }).join("");
 
-    wrap.innerHTML = '<div class="agenda-carousel" data-agenda-carousel><div class="agenda-track"><div class="agenda-group">' + cards + '</div><div class="agenda-group" aria-hidden="true">' + cards + '</div></div></div>';
-    var duplicate = $(".agenda-group[aria-hidden='true']", wrap);
-    if (duplicate) $$('button, a', duplicate).forEach(function (el) { el.tabIndex = -1; });
+    wrap.innerHTML = (upcoming ? "" : '<p class="agenda-status">' + esc(t("agenda.pastNote")) + '</p>') + '<div class="agenda-carousel" data-agenda-carousel><div class="agenda-track"><div class="agenda-group">' + cards + '</div></div></div>';
     observeReveals();
     initFlyerViewer();
-    initAgendaCarousel();
-    injectEventSchema(list);
-  }
-
-  function initAgendaCarousel() {
-    var scroller = $("[data-agenda-carousel]");
-    if (!scroller) return;
-    if (agendaFrame) cancelAnimationFrame(agendaFrame);
-
-    var paused = false;
-    var resumeTimer = 0;
-    var last = 0;
-    var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    function setPaused(value) {
-      paused = value;
-      window.clearTimeout(resumeTimer);
-    }
-
-    function resumeSoon() {
-      window.clearTimeout(resumeTimer);
-      resumeTimer = window.setTimeout(function () { paused = false; }, 1400);
-    }
-
-    scroller.addEventListener("pointerdown", function () { setPaused(true); }, { passive: true });
-    scroller.addEventListener("pointerup", resumeSoon, { passive: true });
-    scroller.addEventListener("pointercancel", resumeSoon, { passive: true });
-    scroller.addEventListener("mouseenter", function () { setPaused(true); });
-    scroller.addEventListener("mouseleave", resumeSoon);
-    scroller.addEventListener("focusin", function () { setPaused(true); });
-    scroller.addEventListener("focusout", resumeSoon);
-
-    if (reduced) return;
-
-    function tick(now) {
-      if (!last) last = now;
-      var delta = Math.min(now - last, 34);
-      last = now;
-      if (!paused) {
-        var half = scroller.scrollWidth / 2;
-        scroller.scrollLeft += delta * 0.028;
-        if (scroller.scrollLeft >= half) scroller.scrollLeft -= half;
-      }
-      agendaFrame = requestAnimationFrame(tick);
-    }
-
-    agendaFrame = requestAnimationFrame(tick);
+    injectEventSchema(upcoming ? list : []);
   }
 
   function initFlyerViewer() {
