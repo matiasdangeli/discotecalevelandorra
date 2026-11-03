@@ -247,6 +247,14 @@ Los metadatos del sitio (canonical, Open Graph, sitemap) ya apuntan a
 - Logo y vídeos: material propio de Level Andorra, recuperado de la web anterior.
 - Tipografías Archivo e Inter: SIL Open Font License 1.1 (`assets/fonts/OFL.txt`).
 - Iconos: SVG propios, dibujados a mano en el HTML.
+- Sponsors: PNG independientes con canal alfa en `assets/img/sponsors/`. El blanco
+  se aplica por CSS, conservando la transparencia. No recortar los logos de los flyers.
+  Fuentes: [Brugal (guía de marca)](https://www.topspirit.at/wp-content/uploads/Mediendatenbank/Spirituosen/Brugal/Produktlogo/SECONDARY%20LOGO%20FILES/AI%20FILES/RGB/HORIZONTAL%20BRUGAL%20LOGO%20RGB.pdf),
+  [Patrón](https://www.patrontequila.com/images/patrontequila/logo-desktop@2x.png),
+  [Moët & Chandon](https://commons.wikimedia.org/wiki/File:Logo_Mo%C3%ABt_%26_Chandon.svg),
+  [Dom Pérignon](https://commons.wikimedia.org/wiki/File:Logo_-_Dom_P%C3%A9rignon.svg),
+  [Grey Goose](https://www.greygoose.com/images/greygoose/icons/nav-desktop-logo-white.svg)
+  y [Belvedere](https://seekvectors.com/post/belvedere-vodka-logo).
 
 
 ## Panel visual para Hostinger
