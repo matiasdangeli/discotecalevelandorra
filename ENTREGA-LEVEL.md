@@ -18,7 +18,7 @@ Para probar localmente: python3 -m http.server 8000 y abrir http://localhost:800
 - Programación, residentes y enlaces: index.html.
 - Textos en español, catalán, inglés y francés: assets/js/i18n.js; mantener sincronizados los cuatro idiomas y el texto base del HTML.
 - Diseño: assets/css/style.css.
-- Fondo de portada: assets/video/hero.mp4 y assets/img/poster-hero.jpg, recuperados de la web anterior de Level. El video se carga tras la página; con ahorro de datos, conexión lenta o movimiento reducido queda la imagen.
+- Fondo fijo a pantalla completa: assets/video/hero.mp4 y assets/img/poster-hero.jpg, recuperados de la web anterior de Level. El video se carga tras la página; con ahorro de datos, conexión lenta o movimiento reducido queda la imagen.
 - events.json se conserva como archivo histórico pero ya no se descarga ni se muestra en la portada.
 - El panel PHP anterior no controla la programación fija y no funciona en GitHub Pages. No es necesario para esta propuesta.
 
