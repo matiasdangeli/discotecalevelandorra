@@ -89,7 +89,7 @@
     applyConfigLinks();
     renderHours();
     renderStatus();
-    renderEvents();
+
   }
 
   function initLangSwitcher() {
@@ -662,7 +662,7 @@
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var conn = navigator.connection || {};
     var saveData = conn.saveData === true;
-    var slow = /2g/.test(conn.effectiveType || "");
+    var slow = /(^|-)2g$|3g/.test(conn.effectiveType || "");
 
     if (reduce || saveData || slow) return;
 
@@ -673,7 +673,7 @@
 
     var start = function () {
       video.src = src;
-      video.addEventListener("canplay", function () {
+      video.addEventListener("playing", function () {
         video.classList.add("is-ready");
         if (media) media.classList.add("has-video");
       }, { once: true });
@@ -681,8 +681,12 @@
       if (p && p.catch) p.catch(function () { /* autoplay bloqueado: se queda el poster */ });
     };
 
-    if ("requestIdleCallback" in window) requestIdleCallback(start, { timeout: 2200 });
-    else setTimeout(start, 600);
+    var afterLoad = function () {
+      if ("requestIdleCallback" in window) requestIdleCallback(start, { timeout: 2200 });
+      else setTimeout(start, 600);
+    };
+    if (document.readyState === "complete") afterLoad();
+    else window.addEventListener("load", afterLoad, { once: true });
   }
 
   function initReels() {
@@ -848,7 +852,7 @@
 
     applyLang(detectLang(), { persist: false });
     observeReveals();
-    loadEvents();
+    // La programación semanal es fija y no depende de events.json.
   }
 
   if (document.readyState === "loading") {

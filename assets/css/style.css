@@ -1711,3 +1711,25 @@ main > * { order: 0 !important; }
   .footer__top { grid-template-columns:1fr 1fr; }
   .footer__brand { grid-column:1 / -1; max-width:none; }
 }
+
+/* Permanent weekly programme and lightweight atmospheric cover. */
+.intro--video { position:relative; isolation:isolate; overflow:hidden; min-height:58svh; align-items:center; border-radius:0 0 28px 28px; padding:150px 32px 64px; }
+.intro__media { position:absolute; inset:0; z-index:-2; background:#080809; pointer-events:none; }
+.intro__media img,.intro__media video { position:absolute; width:100%; height:100%; object-fit:cover; filter:blur(24px) brightness(.48) saturate(.85); transform:scale(1.15); }
+.intro__media video { opacity:0; transition:opacity 1.3s ease; }
+.intro__media video.is-ready { opacity:1; }
+.intro--video::after { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg,rgba(5,5,8,.15),rgba(5,5,8,.82)); }
+.week-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+.week-card { background:linear-gradient(145deg,rgba(195,156,83,.09),rgba(255,255,255,.025)); border:1px solid var(--line); padding:28px; border-radius:20px; display:flex; flex-direction:column; min-width:0; }
+.week-card h3 { font-family:var(--font-display); font-size:2rem; text-transform:uppercase; }
+.week-time { color:#d9b878; font-size:1.1rem; margin:8px 0 24px; }
+.week-room { border-top:1px solid var(--line); padding:22px 0; }
+.week-room h4 { font-size:1.15rem; line-height:1.4; margin:10px 0; }
+.week-room>p:not(.eyebrow),.week-djs { color:#bebdc4; font-size:.9rem; line-height:1.7; }
+.week-djs a,.week-external { color:#e4c88d; text-decoration:underline; text-underline-offset:4px; }
+.week-entry { margin-top:auto; border-top:1px solid var(--line); padding-top:18px; font-size:.88rem; line-height:1.7; }
+.week-note { margin-top:24px; color:#b9b8c2; line-height:1.6; }
+.contact-social { margin-bottom:24px; flex-wrap:wrap; }
+@media(max-width:1000px){.week-grid{grid-template-columns:1fr}.intro--video{min-height:50svh}.week-card{padding:24px}.intro__actions{flex-wrap:wrap}}
+@media(max-width:600px){.intro--video{padding:120px 20px 42px}.intro__actions{display:flex;flex-direction:column;align-items:stretch}.intro__actions .btn{min-width:0;white-space:normal}.week-card h3{font-size:1.7rem}}
+@media(prefers-reduced-motion:reduce){.intro__media video{display:none}.intro__media img{transition:none}}

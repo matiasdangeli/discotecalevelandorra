@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.LEVEL_CONFIG = {
-  ticketsUrl: "https://site.fourvenues.com/es/level-andorra",
+  ticketsUrl: "",
   instagram: "https://www.instagram.com/levelandorra_oficial/",
   tiktok: "",
   facebook: "",
@@ -18,7 +18,7 @@ window.LEVEL_CONFIG = {
 
   waMessages: {
     vip: {
-      es: "Hola Level! Quería información para reservar una mesa VIP.",
+      es: "Hola, quiero info de reservas",
       ca: "Hola Level! Volia informació per reservar una taula VIP.",
       en: "Hi Level! I'd like information about booking a VIP table.",
       fr: "Bonjour Level ! Je souhaite des informations pour réserver une table VIP."
