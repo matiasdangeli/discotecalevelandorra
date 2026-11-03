@@ -1,0 +1,13 @@
+/* One fixed, edge-to-edge background; all content scrolls above it. */
+body { position:relative; isolation:isolate; }
+.site-backdrop { position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; background:#080809; }
+.site-backdrop img,.site-backdrop video { position:absolute; inset:-32px; width:calc(100% + 64px); height:calc(100% + 64px); max-width:none; object-fit:cover; object-position:center; filter:blur(22px) saturate(.8); }
+.site-backdrop video { opacity:0; transition:opacity 1.2s ease; }
+.site-backdrop video.is-ready { opacity:1; }
+.site-backdrop::after { content:""; position:absolute; inset:0; background:rgba(5,5,8,.68); }
+main,.intro,.footer { background:transparent; }
+.intro { isolation:auto; border-radius:0; overflow:visible; }
+@media(max-width:1000px){.week-grid{grid-template-columns:1fr}.week-card{padding:24px}.intro__actions{flex-wrap:wrap}}
+@media(max-width:600px){.intro__actions{display:flex;flex-direction:column;align-items:stretch}.intro__actions .btn{min-width:0;white-space:normal}.week-card h3{font-size:1.7rem}}
+@media(prefers-reduced-motion:reduce){.site-backdrop video{display:none}.site-backdrop img{transition:none}}
+@media print{.site-backdrop{display:none}}
